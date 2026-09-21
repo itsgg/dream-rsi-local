@@ -1,0 +1,111 @@
+{
+ "name": "dream_r4",
+ "config": {
+  "W": 4,
+  "max_branches": 8,
+  "max_depth": 6,
+  "K1": 10,
+  "K2": 12,
+  "M": 4,
+  "beta1": 0.005,
+  "beta2": 0.01,
+  "baseline_score": -2.7749999999999915,
+  "seed_program": "funsearch_or",
+  "mode": "dream",
+  "model": "qwen2.5-coder:7b",
+  "policy_model": "qwen2.5-coder:7b",
+  "rounds": 4
+ },
+ "rounds": [
+  {
+   "round": 1,
+   "policy": "policy_round_01.py",
+   "calls": 24,
+   "cumulative_calls": 24,
+   "decision_rounds": 6,
+   "failed": 20,
+   "round_best": -2.1499999999999915,
+   "round_best_heldout": -4.049999999999983,
+   "best_so_far": -2.1499999999999915,
+   "best_so_far_heldout": -4.049999999999983,
+   "best_mechanism": "Introduce a tie-break term based on best-fit to encourage spread across bins.",
+   "rollout_seconds": 597.7,
+   "policy_fallback_round": null,
+   "dream_seconds": 118.8,
+   "next_policy_changed": true,
+   "llm": {
+    "calls": 27,
+    "prompt_tokens": 36580,
+    "completion_tokens": 6557,
+    "seconds": 1577.5
+   }
+  },
+  {
+   "round": 2,
+   "policy": "policy_round_02.py",
+   "calls": 14,
+   "cumulative_calls": 38,
+   "decision_rounds": 6,
+   "failed": 1,
+   "round_best": -2.174999999999997,
+   "round_best_heldout": -4.199999999999989,
+   "best_so_far": -2.1499999999999915,
+   "best_so_far_heldout": -4.049999999999983,
+   "best_mechanism": "Introduce a tie-break term based on best-fit to encourage spread across bins.",
+   "rollout_seconds": 295.6,
+   "policy_fallback_round": null,
+   "dream_seconds": 120.7,
+   "next_policy_changed": false,
+   "llm": {
+    "calls": 44,
+    "prompt_tokens": 68544,
+    "completion_tokens": 9743,
+    "seconds": 2236.7
+   }
+  },
+  {
+   "round": 3,
+   "policy": "policy_round_03.py",
+   "calls": 16,
+   "cumulative_calls": 54,
+   "decision_rounds": 6,
+   "failed": 1,
+   "round_best": -2.174999999999997,
+   "round_best_heldout": -4.199999999999989,
+   "best_so_far": -2.1499999999999915,
+   "best_so_far_heldout": -4.049999999999983,
+   "best_mechanism": "Introduce a tie-break term based on best-fit to encourage spread across bins.",
+   "rollout_seconds": 325.8,
+   "policy_fallback_round": null,
+   "dream_seconds": 139.5,
+   "next_policy_changed": false,
+   "llm": {
+    "calls": 63,
+    "prompt_tokens": 110126,
+    "completion_tokens": 13350,
+    "seconds": 2952.6
+   }
+  },
+  {
+   "round": 4,
+   "policy": "policy_round_04.py",
+   "calls": 4,
+   "cumulative_calls": 58,
+   "decision_rounds": 1,
+   "failed": 1,
+   "round_best": -2.1499999999999915,
+   "round_best_heldout": -4.049999999999983,
+   "best_so_far": -2.1499999999999915,
+   "best_so_far_heldout": -4.049999999999983,
+   "best_mechanism": "Introduce a tie-break term based on best-fit to encourage spread across bins.",
+   "rollout_seconds": 103.0,
+   "policy_fallback_round": null,
+   "llm": {
+    "calls": 67,
+    "prompt_tokens": 118146,
+    "completion_tokens": 14252,
+    "seconds": 3212.1
+   }
+  }
+ ]
+}

@@ -1,0 +1,74 @@
+[
+ {
+  "name": "v00 (incumbent)",
+  "path": "/Users/gg/Work/GG/dream-rsi-local/runs/dream_r4/round_01/dream/v00.py",
+  "mean_V": -2.2299999999999915,
+  "errors": [],
+  "per_tree": [
+   {
+    "tree": "round_01",
+    "V": -2.2299999999999915,
+    "best": -2.1499999999999915,
+    "N": 24,
+    "rounds": 6,
+    "revealed_all": true,
+    "error": null,
+    "violations": 0
+   }
+  ]
+ },
+ {
+  "name": "v01",
+  "path": "/Users/gg/Work/GG/dream-rsi-local/runs/dream_r4/round_01/dream/v01.py",
+  "mean_V": -2.174999999999997,
+  "errors": [],
+  "per_tree": [
+   {
+    "tree": "round_01",
+    "V": -2.174999999999997,
+    "best": -2.174999999999997,
+    "N": 6,
+    "rounds": 2,
+    "revealed_all": false,
+    "error": null,
+    "violations": 0
+   }
+  ]
+ },
+ {
+  "name": "v02",
+  "path": "/Users/gg/Work/GG/dream-rsi-local/runs/dream_r4/round_01/dream/v02.py",
+  "mean_V": -2.174999999999997,
+  "errors": [],
+  "per_tree": [
+   {
+    "tree": "round_01",
+    "V": -2.174999999999997,
+    "best": -2.174999999999997,
+    "N": 6,
+    "rounds": 2,
+    "revealed_all": false,
+    "error": null,
+    "violations": 0
+   }
+  ]
+ },
+ {
+  "name": "v03",
+  "path": "/Users/gg/Work/GG/dream-rsi-local/runs/dream_r4/round_01/dream/v03.py",
+  "mean_V": -2.174999999999997,
+  "errors": [],
+  "per_tree": [
+   {
+    "tree": "round_01",
+    "V": -2.174999999999997,
+    "best": -2.174999999999997,
+    "N": 6,
+    "rounds": 2,
+    "revealed_all": false,
+    "error": null,
+    "violations": 1
+   }
+  ]
+ }
+]

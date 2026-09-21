@@ -1,0 +1,135 @@
+[13:33:15] run fixed_qwen2_5-coder_7b_s2: {"W": 4, "max_branches": 8, "max_depth": 6, "K1": 10, "K2": 10, "M": 4, "beta1": 0.005, "beta2": 0.01, "baseline_score": -2.7749999999999915, "seed_program": "funsearch_or", "mode": "fixed", "model": "qwen2.5-coder:7b", "policy_model": "qwen2.5-coder:7b", "rounds": 4, "sampling_seed": 2, "temperature": 0.8, "policy_temperature": 0.7, "policy_timeout": 30.0, "num_ctx": 8192, "num_predict": 1200, "policy_num_predict": 2500, "task": "binpack_uniform_c150", "train_spec": {"seed": 10, "n_inst": 40, "n_items": 200, "cap": 150, "lo": 1, "hi": 100}, "heldout_spec": {"seed": 777, "n_inst": 20, "n_items": 500, "cap": 150, "lo": 1, "hi": 100}, "reference_scores": {"first_fit": -2.7249999999999943, "best_fit": -2.174999999999997, "funsearch_or": -2.7749999999999915}, "code_commit": "29aa5b2", "repair_rounds": 2, "novelty_threshold": 0.95, "embed_model": "bge-m3"}
+[13:33:15] baseline scores: {'first_fit': -2.7249999999999943, 'best_fit': -2.174999999999997, 'funsearch_or': -2.7749999999999915}
+[13:33:15] === round 1/4: online rollout with policy_round_01.py ===
+[13:33:15]   round 0: batch=[0, 0, 0, 0] (legal=[0])
+[13:33:43]     node 1 (branch 0, depth 1) -2.775 | Improve the bin selection by considering a more nuanced approach to bin capacity
+[13:33:43]     node 2 (branch 1, depth 1) -132.225 | Use a logarithmic scale for bin preferences to prioritize larger bins less and s
+[13:33:43]     node 3 (branch 2, depth 1) -2.775 | unspecified
+[13:33:43]     node 4 (branch 3, depth 1) -132.225 | unspecified
+[13:33:43]   round 1: batch=[1, 2, 3, 4] (legal=[0, 1, 2, 3, 4])
+[13:34:12]     node 5 (branch 0, depth 2) -132.225 | Adjust the priority function to give higher scores to larger remaining capacitie
+[13:34:12]     node 6 (branch 1, depth 2) -132.225 dup=round_01#2 novelty-retry | Use a modified logarithmic scale to prioritize larger bins less and smaller bins
+[13:34:12]     node 7 (branch 2, depth 2) -2.175 | unspecified
+[13:34:12]     node 8 (branch 3, depth 2) -132.225 | Use a more nuanced approach to bin capacity by considering both remaining capaci
+[13:34:12]   round 2: batch=[5, 6, 7, 8] (legal=[0, 5, 6, 7, 8])
+[13:34:53]     node 9 (branch 0, depth 3) -132.225 | Adjust the priority function to give higher scores to larger remaining capacitie
+[13:34:53]     node 10 (branch 1, depth 3) -132.225 | Use a modified logarithmic scale to prioritize larger bins less and smaller bins
+[13:34:53]     node 11 (branch 2, depth 3) -132.225 | Improve bin selection by considering both remaining capacity and a penalty for c
+[13:34:53]     node 12 (branch 3, depth 3) -19.325 dup=round_01#8 novelty-retry | Use a combination of remaining capacity and item size to prioritize bins
+[13:34:53]   round 3: batch=[9, 10, 11, 12] (legal=[0, 9, 10, 11, 12])
+[13:36:33]     node 13 (branch 0, depth 4) FAIL: runtime error: ValueError: priority returned NaN or inf values repaired=Falsex2 dup=round_01#9 novelty-retry | Introduce a penalty for bins that are already very close to being full and use a
+[13:36:33]     node 14 (branch 1, depth 4) -132.225 dup=round_01#10 novelty-retry | Use a weighted sum of the logarithmic and linear terms to balance the preference
+[13:36:33]     node 15 (branch 2, depth 4) -132.225 dup=round_01#11 novelty-retry | Prioritize bins based on a combination of remaining capacity and a penalty for c
+[13:36:33]     node 16 (branch 3, depth 4) -132.225 dup=round_01#12 novelty-retry | Use a weighted combination of remaining capacity and item size to prioritize bin
+[13:36:33]   round 4: batch=[13, 14, 15, 16] (legal=[0, 13, 14, 15, 16])
+[13:38:11]     node 17 (branch 0, depth 5) -132.225 dup=round_01#13 novelty-retry | Prioritize bins based on a combination of remaining capacity and a penalty for b
+[13:38:11]     node 18 (branch 1, depth 5) -132.225 dup=round_01#14 novelty-retry | Use a quadratic penalty for bins that are already very close to being full, comb
+[13:38:11]     node 19 (branch 2, depth 5) -132.225 dup=round_01#11 novelty-retry | Prioritize bins based on a combination of remaining capacity and a penalty for c
+[13:38:11]     node 20 (branch 3, depth 5) -132.225 dup=round_01#15 novelty-retry | Prioritize bins based on a combination of remaining capacity and a penalty for b
+[13:38:11]   round 5: batch=[17, 18, 19, 20] (legal=[0, 17, 18, 19, 20])
+[13:39:49]     node 21 (branch 0, depth 6) -132.225 dup=round_01#17 novelty-retry | Prioritize bins based on a combination of remaining capacity and a penalty for b
+[13:39:49]     node 22 (branch 1, depth 6) -132.225 dup=round_01#18 novelty-retry | Use a penalty for bins that are already very close to being full, combined with 
+[13:39:49]     node 23 (branch 2, depth 6) -121.500 dup=round_01#15 novelty-retry | Prioritize bins based on a combination of remaining capacity and a penalty for c
+[13:39:49]     node 24 (branch 3, depth 6) -132.225 dup=round_01#20 novelty-retry | Prioritize bins based on a combination of remaining capacity and a penalty for b
+[13:39:49]   round 6: policy chose to stop
+[13:39:49] round 1 done: 24 calls in 394.8s, round best -2.174999999999997, best so far -2.174999999999997 (held-out -4.199999999999989), cumulative 24
+[13:39:49] === round 2/4: online rollout with policy_round_02.py ===
+[13:39:49]   round 0: batch=[0, 0, 0, 0] (legal=[0])
+[13:41:51]     node 1 (branch 0, depth 1) -132.225 dup=round_01#19 novelty-retry | Prioritize bins based on a combination of remaining capacity and a penalty for c
+[13:41:51]     node 2 (branch 1, depth 1) -132.225 dup=round_01#15 novelty-retry | Prioritize bins based on a combination of remaining capacity and a penalty for c
+[13:41:51]     node 3 (branch 2, depth 1) -2.175 | Use a piecewise linear function to prioritize bins based on remaining capacity, 
+[13:41:51]     node 4 (branch 3, depth 1) -132.225 novelty-retry | Use a combination of remaining capacity and a penalty for choosing bins with low
+[13:41:51]   round 1: batch=[1, 2, 3, 4] (legal=[0, 1, 2, 3, 4])
+[13:44:09]     node 5 (branch 0, depth 2) -121.500 dup=round_01#23 novelty-retry | Use a combination of remaining capacity and a penalty for choosing bins with low
+[13:44:09]     node 6 (branch 1, depth 2) -132.225 dup=round_02#2 novelty-retry | Prioritize bins based on a combination of remaining capacity and a penalty for c
+[13:44:09]     node 7 (branch 2, depth 2) -15.475 novelty-retry | Use a piecewise linear function with a focus on balancing bin utilization while 
+[13:44:09]     node 8 (branch 3, depth 2) -89.700 dup=round_01#11 novelty-retry | Use a combination of remaining capacity and a penalty for choosing bins with low
+[13:44:09]   round 2: batch=[5, 6, 7, 8] (legal=[0, 5, 6, 7, 8])
+[13:46:31]     node 9 (branch 0, depth 3) -132.225 dup=round_02#1 novelty-retry | Prioritize bins based on a combination of remaining capacity and a penalty for c
+[13:46:31]     node 10 (branch 1, depth 3) -132.225 dup=round_02#6 novelty-retry | Prioritize bins based on a combination of remaining capacity and a penalty for c
+[13:46:31]     node 11 (branch 2, depth 3) -132.225 dup=round_01#15 novelty-retry | Use a weighted combination of remaining capacity and item size, with a penalty f
+[13:46:31]     node 12 (branch 3, depth 3) -132.225 dup=round_02#8 novelty-retry | Use a combination of remaining capacity and a penalty for choosing bins with low
+[13:46:31]   round 3: batch=[9, 10, 11, 12] (legal=[0, 9, 10, 11, 12])
+[13:48:09]     node 13 (branch 0, depth 4) -120.375 dup=round_01#23 novelty-retry | Prioritize bins based on a combination of remaining capacity and a penalty for c
+[13:48:09]     node 14 (branch 1, depth 4) -132.225 dup=round_02#10 novelty-retry | Use a combination of remaining capacity and a penalty for choosing bins with low
+[13:48:09]     node 15 (branch 2, depth 4) -132.225 dup=round_02#11 novelty-retry | Use a combination of remaining capacity and a penalty for choosing bins with low
+[13:48:09]     node 16 (branch 3, depth 4) -132.225 dup=round_02#12 novelty-retry | Use a combination of remaining capacity and a penalty for choosing bins with low
+[13:48:09]   round 4: batch=[13, 14, 15, 16] (legal=[0, 13, 14, 15, 16])
+[13:50:01]     node 17 (branch 0, depth 5) -132.225 dup=round_02#9 novelty-retry | Use a combination of remaining capacity and a penalty for choosing bins with low
+[13:50:01]     node 18 (branch 1, depth 5) -132.225 dup=round_02#10 novelty-retry | Use a combination of remaining capacity and a penalty for choosing bins with low
+[13:50:01]     node 19 (branch 2, depth 5) -132.225 dup=round_02#15 novelty-retry | Use a combination of remaining capacity and item size, with a penalty for very e
+[13:50:01]     node 20 (branch 3, depth 5) -67.425 dup=round_02#16 novelty-retry | Prioritize bins based on a combination of remaining capacity and a penalty for c
+[13:50:01]   round 5: batch=[17, 18, 19, 20] (legal=[0, 17, 18, 19, 20])
+[13:52:10]     node 21 (branch 0, depth 6) -120.375 dup=round_02#13 novelty-retry | Use a combination of remaining capacity and a penalty for choosing bins with low
+[13:52:10]     node 22 (branch 1, depth 6) FAIL: runtime error: ValueError: priority returned NaN or inf values repaired=Falsex2 dup=round_02#18 novelty-retry | Use a weighted combination of remaining capacity and a penalty for choosing bins
+[13:52:10]     node 23 (branch 2, depth 6) -132.225 dup=round_02#19 novelty-retry | Use a combination of remaining capacity and item size, with a penalty for very e
+[13:52:10]     node 24 (branch 3, depth 6) -132.225 dup=round_02#20 novelty-retry | Prioritize bins based on a combination of remaining capacity and a penalty for c
+[13:52:10]   round 6: policy chose to stop
+[13:52:10] round 2 done: 24 calls in 740.1s, round best -2.174999999999997, best so far -2.174999999999997 (held-out -4.199999999999989), cumulative 48
+[13:52:10] === round 3/4: online rollout with policy_round_03.py ===
+[13:52:10]   round 0: batch=[0, 0, 0, 0] (legal=[0])
+[13:54:09]     node 1 (branch 0, depth 1) -61.275 | Use a combination of remaining capacity and a penalty for choosing bins with low
+[13:54:09]     node 2 (branch 1, depth 1) -2.775 | Introduce a penalty for bins that are already very close to being full and use a
+[13:54:09]     node 3 (branch 2, depth 1) -132.225 novelty-retry | Use a logarithmic function to prioritize bins based on remaining capacity to avo
+[13:54:09]     node 4 (branch 3, depth 1) -2.200 novelty-retry | Use a logarithmic function to prioritize bins based on remaining capacity to pen
+[13:54:09]   round 1: batch=[1, 2, 3, 4] (legal=[0, 1, 2, 3, 4])
+[13:56:46]     node 5 (branch 0, depth 2) -15.475 dup=round_02#7 novelty-retry | Use a piecewise linear function with a focus on balancing bin utilization while 
+[13:56:46]     node 6 (branch 1, depth 2) -132.225 dup=round_01#23 novelty-retry | Use a logarithmic function to prioritize bins based on remaining capacity to avo
+[13:56:46]     node 7 (branch 2, depth 2) -2.925 dup=round_01#23 novelty-retry | Use a quadratic function to prioritize bins based on remaining capacity to avoid
+[13:56:46]     node 8 (branch 3, depth 2) -101.450 dup=round_03#4 novelty-retry | Use an exponential function to prioritize bins based on remaining capacity, pena
+[13:56:46]   round 2: batch=[5, 6, 7, 8] (legal=[0, 5, 6, 7, 8])
+[13:59:26]     node 9 (branch 0, depth 3) -2.150 dup=round_03#7 novelty-retry | Use a combination of logarithmic function for remaining capacity and exponential
+[13:59:26]     node 10 (branch 1, depth 3) -132.225 dup=round_03#6 novelty-retry | Use a combination of remaining capacity and a penalty for choosing bins with low
+[13:59:26]     node 11 (branch 2, depth 3) -2.175 dup=round_03#7 novelty-retry | Use an exponential function to prioritize bins based on remaining capacity, with
+[13:59:26]     node 12 (branch 3, depth 3) -2.200 dup=round_03#4 novelty-retry | Use a logarithmic function to prioritize bins based on remaining capacity, penal
+[13:59:26]   round 3: batch=[9, 10, 11, 12] (legal=[0, 9, 10, 11, 12])
+[14:02:02]     node 13 (branch 0, depth 4) -2.175 dup=round_03#9 novelty-retry | Use a combination of quadratic function for remaining capacity and logarithmic d
+[14:02:02]     node 14 (branch 1, depth 4) -132.225 dup=round_03#6 novelty-retry | Use a combination of remaining capacity and a penalty for choosing bins with low
+[14:02:02]     node 15 (branch 2, depth 4) -132.225 dup=round_03#11 novelty-retry | Use a different combination of linear and exponential functions to prioritize bi
+[14:02:02]     node 16 (branch 3, depth 4) -132.225 dup=round_03#8 novelty-retry | Use a combination of remaining capacity and a penalty for choosing bins with low
+[14:02:02]   round 4: batch=[13, 14, 15, 16] (legal=[0, 13, 14, 15, 16])
+[14:04:17]     node 17 (branch 0, depth 5) -2.175 dup=round_03#9 novelty-retry | Use a combination of exponential function for remaining capacity and linear deca
+[14:04:17]     node 18 (branch 1, depth 5) -132.225 dup=round_03#6 novelty-retry | Use a weighted combination of remaining capacity and a penalty for choosing bins
+[14:04:17]     node 19 (branch 2, depth 5) -2.175 dup=round_03#11 novelty-retry | Use a penalty function to prioritize bins based on remaining capacity, with a fo
+[14:04:17]     node 20 (branch 3, depth 5) -132.225 dup=round_03#15 novelty-retry | Use a combination of remaining capacity and a weighted penalty for choosing bins
+[14:04:17]   round 5: batch=[17, 18, 19, 20] (legal=[0, 17, 18, 19, 20])
+[14:06:52]     node 21 (branch 0, depth 6) -3.250 dup=round_03#13 novelty-retry | Use a combination of logarithmic function for remaining capacity and quadratic d
+[14:06:52]     node 22 (branch 1, depth 6) -132.225 dup=round_03#18 novelty-retry | Use a combination of remaining capacity and a logarithmic function to prioritize
+[14:06:52]     node 23 (branch 2, depth 6) -132.225 dup=round_03#3 novelty-retry | Use a combination of quadratic function for remaining capacity and logarithmic d
+[14:06:52]     node 24 (branch 3, depth 6) -132.225 dup=round_03#20 novelty-retry | Use a combination of remaining capacity and a penalty for choosing bins with low
+[14:06:52]   round 6: policy chose to stop
+[14:06:52] round 3 done: 24 calls in 882.9s, round best -2.1499999999999915, best so far -2.1499999999999915 (held-out -4.149999999999977), cumulative 72
+[14:06:52] === round 4/4: online rollout with policy_round_04.py ===
+[14:06:53]   round 0: batch=[0, 0, 0, 0] (legal=[0])
+[14:09:33]     node 1 (branch 0, depth 1) -132.225 dup=round_03#19 novelty-retry | Use a piecewise linear function to prioritize bins based on remaining capacity, 
+[14:09:33]     node 2 (branch 1, depth 1) -66.800 dup=round_02#3 novelty-retry | Use a piecewise exponential function to prioritize bins based on remaining capac
+[14:09:33]     node 3 (branch 2, depth 1) -6.750 dup=round_03#13 novelty-retry | Use a quadratic function for remaining capacity and exponential decay for bin ut
+[14:09:33]     node 4 (branch 3, depth 1) -4.600 novelty-retry | Use a sigmoid function to prioritize bins based on remaining capacity, which smo
+[14:09:33]   round 1: batch=[1, 2, 3, 4] (legal=[0, 1, 2, 3, 4])
+[14:11:53]     node 5 (branch 0, depth 2) -2.175 dup=round_03#9 novelty-retry | Use a logarithmic function for remaining capacity and a quadratic penalty for bi
+[14:11:53]     node 6 (branch 1, depth 2) -9.375 dup=round_03#23 novelty-retry | Use a combination of logarithmic function for remaining capacity and quadratic d
+[14:11:53]     node 7 (branch 2, depth 2) -2.150 dup=round_03#17 novelty-retry | Use a linear function for remaining capacity and exponential decay for bin utili
+[14:11:53]     node 8 (branch 3, depth 2) -101.450 dup=round_03#21 novelty-retry | Use a quadratic function for remaining capacity and logarithmic decay for bin ut
+[14:11:53]   round 2: batch=[5, 6, 7, 8] (legal=[0, 5, 6, 7, 8])
+[14:14:41]     node 9 (branch 0, depth 3) -37.425 repaired=Truex1 novelty-retry | Use a piecewise linear function to prioritize bins based on remaining capacity, 
+[14:14:41]     node 10 (branch 1, depth 3) -2.175 dup=round_03#13 novelty-retry | Use a combination of quadratic function for remaining capacity and logarithmic d
+[14:14:41]     node 11 (branch 2, depth 3) -2.175 dup=round_03#17 novelty-retry | Use a combination of exponential function for remaining capacity and a linear de
+[14:14:41]     node 12 (branch 3, depth 3) -13.775 novelty-retry | Use a piecewise linear function to prioritize bins based on remaining capacity, 
+[14:14:41]   round 3: batch=[9, 10, 11, 12] (legal=[0, 9, 10, 11, 12])
+[14:17:39]     node 13 (branch 0, depth 4) -37.525 dup=round_04#9 novelty-retry | Use a piecewise quadratic function to prioritize bins based on remaining capacit
+[14:17:39]     node 14 (branch 1, depth 4) -10.100 repaired=Truex1 dup=round_03#9 novelty-retry | Use a combination of exponential function for remaining capacity and logarithmic
+[14:17:39]     node 15 (branch 2, depth 4) -132.225 dup=round_04#5 novelty-retry | Use a combination of logarithmic function for remaining capacity and a piecewise
+[14:17:39]     node 16 (branch 3, depth 4) -132.225 dup=round_03#23 novelty-retry | Use a softmax function to prioritize bins based on remaining capacity, which smo
+[14:17:39]   round 4: batch=[13, 14, 15, 16] (legal=[0, 13, 14, 15, 16])
+[14:19:56]     node 17 (branch 0, depth 5) -132.225 dup=round_03#10 novelty-retry | Use a penalty function based on remaining capacity and bin utilization to priori
+[14:19:56]     node 18 (branch 1, depth 5) -2.175 dup=round_04#3 novelty-retry | Use a combination of exponential function for remaining capacity and quadratic d
+[14:19:56]     node 19 (branch 2, depth 5) -132.225 dup=round_04#5 novelty-retry | Use a combination of a cubic function for remaining capacity and a logarithmic p
+[14:19:56]     node 20 (branch 3, depth 5) -2.175 dup=round_04#5 novelty-retry | Use a combination of logarithmic function for remaining capacity and a quadratic
+[14:19:56]   round 5: batch=[17, 18, 19, 20] (legal=[0, 17, 18, 19, 20])
+[14:22:34]     node 21 (branch 0, depth 6) -132.225 dup=round_04#8 novelty-retry | Use a combination of quadratic function for remaining capacity and logarithmic d
+[14:22:34]     node 22 (branch 1, depth 6) -2.175 dup=round_03#13 novelty-retry | Use a combination of logarithmic function for remaining capacity and a quadratic
+[14:22:34]     node 23 (branch 2, depth 6) -36.625 dup=round_04#1 novelty-retry | Use a piecewise linear function to prioritize bins based on remaining capacity, 
+[14:22:34]     node 24 (branch 3, depth 6) -16.200 repaired=Truex1 dup=round_04#9 novelty-retry | Use a piecewise linear function to prioritize bins based on remaining capacity, 
+[14:22:34]   round 6: policy chose to stop
+[14:22:34] round 4 done: 24 calls in 941.9s, round best -2.1499999999999915, best so far -2.1499999999999915 (held-out -4.149999999999977), cumulative 96
+[14:22:34] finished. total discovery-agent calls 96; llm stats {'calls': 186, 'prompt_tokens': 324996, 'completion_tokens': 32643, 'seconds': 9698.7}

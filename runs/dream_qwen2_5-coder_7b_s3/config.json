@@ -1,0 +1,49 @@
+{
+ "W": 4,
+ "max_branches": 8,
+ "max_depth": 6,
+ "K1": 10,
+ "K2": 10,
+ "M": 4,
+ "beta1": 0.005,
+ "beta2": 0.01,
+ "baseline_score": -2.7749999999999915,
+ "seed_program": "funsearch_or",
+ "mode": "dream",
+ "model": "qwen2.5-coder:7b",
+ "policy_model": "qwen2.5-coder:7b",
+ "rounds": 4,
+ "sampling_seed": 3,
+ "temperature": 0.8,
+ "policy_temperature": 0.7,
+ "policy_timeout": 30.0,
+ "num_ctx": 8192,
+ "num_predict": 1200,
+ "policy_num_predict": 2500,
+ "task": "binpack_uniform_c150",
+ "train_spec": {
+  "seed": 10,
+  "n_inst": 40,
+  "n_items": 200,
+  "cap": 150,
+  "lo": 1,
+  "hi": 100
+ },
+ "heldout_spec": {
+  "seed": 777,
+  "n_inst": 20,
+  "n_items": 500,
+  "cap": 150,
+  "lo": 1,
+  "hi": 100
+ },
+ "reference_scores": {
+  "first_fit": -2.7249999999999943,
+  "best_fit": -2.174999999999997,
+  "funsearch_or": -2.7749999999999915
+ },
+ "code_commit": "29aa5b2",
+ "repair_rounds": 2,
+ "novelty_threshold": 0.95,
+ "embed_model": "bge-m3"
+}

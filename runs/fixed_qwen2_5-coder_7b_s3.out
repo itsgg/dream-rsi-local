@@ -1,0 +1,135 @@
+[14:49:44] run fixed_qwen2_5-coder_7b_s3: {"W": 4, "max_branches": 8, "max_depth": 6, "K1": 10, "K2": 10, "M": 4, "beta1": 0.005, "beta2": 0.01, "baseline_score": -2.7749999999999915, "seed_program": "funsearch_or", "mode": "fixed", "model": "qwen2.5-coder:7b", "policy_model": "qwen2.5-coder:7b", "rounds": 4, "sampling_seed": 3, "temperature": 0.8, "policy_temperature": 0.7, "policy_timeout": 30.0, "num_ctx": 8192, "num_predict": 1200, "policy_num_predict": 2500, "task": "binpack_uniform_c150", "train_spec": {"seed": 10, "n_inst": 40, "n_items": 200, "cap": 150, "lo": 1, "hi": 100}, "heldout_spec": {"seed": 777, "n_inst": 20, "n_items": 500, "cap": 150, "lo": 1, "hi": 100}, "reference_scores": {"first_fit": -2.7249999999999943, "best_fit": -2.174999999999997, "funsearch_or": -2.7749999999999915}, "code_commit": "eebdd9d", "repair_rounds": 2, "novelty_threshold": 0.95, "embed_model": "bge-m3"}
+[14:49:44] baseline scores: {'first_fit': -2.7249999999999943, 'best_fit': -2.174999999999997, 'funsearch_or': -2.7749999999999915}
+[14:49:44] === round 1/4: online rollout with policy_round_01.py ===
+[14:49:44]   round 0: batch=[0, 0, 0, 0] (legal=[0])
+[14:50:26]     node 1 (branch 0, depth 1) -3.125 | Increase priority for bins with slightly larger remaining capacity to encourage 
+[14:50:26]     node 2 (branch 1, depth 1) -2.275 | Adjust priority function to favor larger gaps more strongly
+[14:50:26]     node 3 (branch 2, depth 1) -2.275 | Use a piecewise linear function with more granular thresholds to prioritize bins
+[14:50:26]     node 4 (branch 3, depth 1) -93.125 | Adjust the priority function to give higher preference to bins with larger remai
+[14:50:26]   round 1: batch=[1, 2, 3, 4] (legal=[0, 1, 2, 3, 4])
+[14:51:19]     node 5 (branch 0, depth 2) -132.225 novelty-retry | Use an exponential decay function to prioritize bins based on their remaining ca
+[14:51:19]     node 6 (branch 1, depth 2) -2.175 | Use a logarithmic scale to prioritize bins with larger remaining capacity more s
+[14:51:19]     node 7 (branch 2, depth 2) -2.175 novelty-retry | Use an exponential decay function to prioritize bins based on remaining capacity
+[14:51:19]     node 8 (branch 3, depth 2) -132.225 | Adjust the priority function to give higher preference to bins with larger remai
+[14:51:19]   round 2: batch=[5, 6, 7, 8] (legal=[0, 5, 6, 7, 8])
+[14:52:12]     node 9 (branch 0, depth 3) -124.825 novelty-retry | Use a piecewise linear function to prioritize bins based on their remaining capa
+[14:52:12]     node 10 (branch 1, depth 3) -2.175 novelty-retry | Use a power-law decay function to prioritize bins with larger remaining capacity
+[14:52:12]     node 11 (branch 2, depth 3) -2.875 repaired=Truex2 | Use a piecewise linear function with more granular thresholds to prioritize bins
+[14:52:12]     node 12 (branch 3, depth 3) -2.825 dup=round_01#8 novelty-retry | Use a modified logarithmic function with a softer decay to prioritize bins based
+[14:52:13]   round 3: batch=[9, 10, 11, 12] (legal=[0, 9, 10, 11, 12])
+[14:52:55]     node 13 (branch 0, depth 4) -132.225 novelty-retry | Use a sigmoid function to prioritize bins based on their remaining capacity.
+[14:52:55]     node 14 (branch 1, depth 4) -132.225 dup=round_01#7 novelty-retry | Use a modified exponential decay function to prioritize bins based on their rema
+[14:52:55]     node 15 (branch 2, depth 4) -132.225 novelty-retry | Use a power-law decay function to prioritize bins based on remaining capacity.
+[14:52:55]     node 16 (branch 3, depth 4) -2.175 novelty-retry | Use a modified exponential decay function with a softening factor to prioritize 
+[14:52:55]   round 4: batch=[13, 14, 15, 16] (legal=[0, 13, 14, 15, 16])
+[14:53:35]     node 17 (branch 0, depth 5) -2.175 | Use a modified exponential decay function to prioritize bins based on their rema
+[14:53:35]     node 18 (branch 1, depth 5) -132.225 | Use a modified exponential decay function with a softening factor to prioritize 
+[14:53:35]     node 19 (branch 2, depth 5) -132.225 novelty-retry | Use a modified logarithmic function to prioritize bins based on remaining capaci
+[14:53:35]     node 20 (branch 3, depth 5) -2.175 novelty-retry | Use a modified inverse linear function with a softening factor to prioritize bin
+[14:53:35]   round 5: batch=[17, 18, 19, 20] (legal=[0, 17, 18, 19, 20])
+[14:54:26]     node 21 (branch 0, depth 6) -2.175 dup=round_01#17 novelty-retry | Use a modified inverse linear function to prioritize bins based on their remaini
+[14:54:26]     node 22 (branch 1, depth 6) -132.225 dup=round_01#18 novelty-retry | Use a logarithmic function with a softening factor to prioritize bins based on t
+[14:54:26]     node 23 (branch 2, depth 6) -4.025 dup=round_01#9 novelty-retry | Use a piecewise linear function with more granular thresholds to prioritize bins
+[14:54:26]     node 24 (branch 3, depth 6) -132.225 dup=round_01#20 novelty-retry | Use a modified logarithmic function with a softening factor to prioritize bins b
+[14:54:27]   round 6: policy chose to stop
+[14:54:27] round 1 done: 24 calls in 282.1s, round best -2.174999999999997, best so far -2.174999999999997 (held-out -4.199999999999989), cumulative 24
+[14:54:27] === round 2/4: online rollout with policy_round_02.py ===
+[14:54:27]   round 0: batch=[0, 0, 0, 0] (legal=[0])
+[14:55:53]     node 1 (branch 0, depth 1) -2.525 novelty-retry | Use a piecewise linear function with a different breakpoint structure to priorit
+[14:55:53]     node 2 (branch 1, depth 1) -2.725 dup=round_01#1 novelty-retry | Use a piecewise linear function with a softer transition to prioritize bins base
+[14:55:53]     node 3 (branch 2, depth 1) -132.225 dup=round_01#22 novelty-retry | Use a logarithmic scale with a softening factor to prioritize bins based on rema
+[14:55:53]     node 4 (branch 3, depth 1) -2.775 dup=round_01#1 novelty-retry | Use a soft-thresholding function to prioritize bins based on remaining capacity
+[14:55:53]   round 1: batch=[1, 2, 3, 4] (legal=[0, 1, 2, 3, 4])
+[14:57:13]     node 5 (branch 0, depth 2) -2.175 dup=round_01#21 novelty-retry | Use a modified inverse linear function with a different softening factor to prio
+[14:57:13]     node 6 (branch 1, depth 2) -2.175 dup=round_01#10 novelty-retry | Use a power-law decay function with a softening factor to prioritize bins with l
+[14:57:13]     node 7 (branch 2, depth 2) -2.175 dup=round_01#17 novelty-retry | Use a modified exponential decay function with a different softening factor to p
+[14:57:13]     node 8 (branch 3, depth 2) -2.275 dup=round_02#4 novelty-retry | Use a modified soft-thresholding function with a different breakpoint structure 
+[14:57:13]   round 2: batch=[5, 6, 7, 8] (legal=[0, 5, 6, 7, 8])
+[14:58:16]     node 9 (branch 0, depth 3) -2.175 dup=round_02#5 novelty-retry | Use a modified inverse quadratic function to prioritize bins based on remaining 
+[14:58:16]     node 10 (branch 1, depth 3) -36.700 | Use a modified piecewise linear function with a softer transition to prioritize 
+[14:58:16]     node 11 (branch 2, depth 3) -132.225 dup=round_01#13 novelty-retry | Use a sigmoid function to prioritize bins based on remaining capacity.
+[14:58:16]     node 12 (branch 3, depth 3) -132.225 dup=round_01#17 novelty-retry | Use a modified sigmoid function to prioritize bins based on remaining capacity.
+[14:58:16]   round 3: batch=[9, 10, 11, 12] (legal=[0, 9, 10, 11, 12])
+[14:59:11]     node 13 (branch 0, depth 4) -132.225 dup=round_02#9 novelty-retry | Use a modified logarithmic function with a softening factor to prioritize bins b
+[14:59:11]     node 14 (branch 1, depth 4) -132.225 dup=round_01#21 novelty-retry | Use a modified logarithmic function to prioritize bins based on remaining capaci
+[14:59:11]     node 15 (branch 2, depth 4) -2.175 dup=round_02#11 novelty-retry | Use a modified exponential decay function with a different softening factor and 
+[14:59:11]     node 16 (branch 3, depth 4) -2.175 dup=round_01#17 novelty-retry | Use a modified hyperbolic tangent function to prioritize bins based on remaining
+[14:59:11]   round 4: batch=[13, 14, 15, 16] (legal=[0, 13, 14, 15, 16])
+[15:00:21]     node 17 (branch 0, depth 5) -132.225 dup=round_02#5 novelty-retry | Use a modified hyperbolic tangent function to prioritize bins based on remaining
+[15:00:21]     node 18 (branch 1, depth 5) -2.175 dup=round_01#21 novelty-retry | Use a modified quadratic function with a softening factor to prioritize bins bas
+[15:00:21]     node 19 (branch 2, depth 5) -2.175 dup=round_02#15 novelty-retry | Use a modified inverse quadratic function with a softening factor to prioritize 
+[15:00:21]     node 20 (branch 3, depth 5) -2.175 dup=round_01#21 novelty-retry | Use a modified power-law decay function with a softening factor to prioritize bi
+[15:00:21]   round 5: batch=[17, 18, 19, 20] (legal=[0, 17, 18, 19, 20])
+[15:01:22]     node 21 (branch 0, depth 6) -132.225 dup=round_02#5 novelty-retry | Use a modified inverse quadratic function with a softening factor to prioritize 
+[15:01:22]     node 22 (branch 1, depth 6) FAIL: runtime error: ValueError: priority returned NaN or inf values repaired=Falsex2 dup=round_02#18 novelty-retry | Use a modified inverse power-law function with a softening factor to prioritize 
+[15:01:22]     node 23 (branch 2, depth 6) -33.000 novelty-retry | Use a modified inverse hyperbolic tangent function to prioritize bins based on r
+[15:01:22]     node 24 (branch 3, depth 6) -2.175 dup=round_01#18 novelty-retry | Use a modified inverse quadratic function with a softening factor to prioritize 
+[15:01:22]   round 6: policy chose to stop
+[15:01:22] round 2 done: 24 calls in 415.8s, round best -2.174999999999997, best so far -2.174999999999997 (held-out -4.199999999999989), cumulative 48
+[15:01:22] === round 3/4: online rollout with policy_round_03.py ===
+[15:01:22]   round 0: batch=[0, 0, 0, 0] (legal=[0])
+[15:02:19]     node 1 (branch 0, depth 1) -2.175 dup=round_01#15 novelty-retry | Use a modified linear decay function with a softening factor to prioritize bins 
+[15:02:19]     node 2 (branch 1, depth 1) -132.225 dup=round_01#18 novelty-retry | Use a modified linear function with a softening factor to prioritize bins based 
+[15:02:19]     node 3 (branch 2, depth 1) -2.175 | Use a modified inverse linear function with a softening factor to prioritize bin
+[15:02:19]     node 4 (branch 3, depth 1) -132.225 dup=round_01#16 novelty-retry | Use a combination of exponential decay and linear scaling to prioritize bins.
+[15:02:19]   round 1: batch=[1, 2, 3, 4] (legal=[0, 1, 2, 3, 4])
+[15:03:19]     node 5 (branch 0, depth 2) -132.225 dup=round_03#1 novelty-retry | Use a modified logarithmic function with a softening factor to prioritize bins b
+[15:03:19]     node 6 (branch 1, depth 2) -132.225 dup=round_03#2 novelty-retry | Use a modified linear decay function with a softening factor to prioritize bins
+[15:03:19]     node 7 (branch 2, depth 2) -2.175 dup=round_03#3 novelty-retry | Use a modified inverse quadratic function with a softening factor to prioritize 
+[15:03:19]     node 8 (branch 3, depth 2) -2.725 novelty-retry | Use a modified sigmoid function to prioritize bins based on remaining capacity.
+[15:03:19]   round 2: batch=[5, 6, 7, 8] (legal=[0, 5, 6, 7, 8])
+[15:04:09]     node 9 (branch 0, depth 3) -132.225 dup=round_03#1 novelty-retry | Use a modified inverse quadratic function with a softening factor to prioritize 
+[15:04:09]     node 10 (branch 1, depth 3) -132.225 dup=round_03#6 novelty-retry | Use a modified quadratic decay function with a softening factor to prioritize bi
+[15:04:09]     node 11 (branch 2, depth 3) -2.175 dup=round_01#7 novelty-retry | Use a modified inverse exponential function with a softening factor to prioritiz
+[15:04:09]     node 12 (branch 3, depth 3) -2.175 dup=round_03#1 novelty-retry | Use a modified quadratic decay function to prioritize bins based on remaining ca
+[15:04:09]   round 3: batch=[9, 10, 11, 12] (legal=[0, 9, 10, 11, 12])
+[15:05:09]     node 13 (branch 0, depth 4) -132.225 dup=round_03#9 novelty-retry | Use a modified inverse quadratic function with a softening factor and a differen
+[15:05:09]     node 14 (branch 1, depth 4) -132.225 dup=round_02#16 novelty-retry | Use a modified inverse hyperbolic tangent function to prioritize bins based on r
+[15:05:09]     node 15 (branch 2, depth 4) -2.175 dup=round_02#18 novelty-retry | Use a modified cosine function to prioritize bins based on remaining capacity.
+[15:05:09]     node 16 (branch 3, depth 4) -15.650 novelty-retry | Use a modified sine function to prioritize bins based on remaining capacity.
+[15:05:09]   round 4: batch=[13, 14, 15, 16] (legal=[0, 13, 14, 15, 16])
+[15:06:14]     node 17 (branch 0, depth 5) -2.175 dup=round_02#16 novelty-retry | Use a modified hyperbolic tangent function with a softening factor to prioritize
+[15:06:14]     node 18 (branch 1, depth 5) FAIL: runtime error: ValueError: priority returned NaN or inf values repaired=Falsex2 dup=round_02#14 novelty-retry | Use a modified logarithmic function with a softening factor to prioritize bins b
+[15:06:14]     node 19 (branch 2, depth 5) -132.225 dup=round_03#14 novelty-retry | Use a modified inverse hyperbolic tangent function to prioritize bins based on r
+[15:06:14]     node 20 (branch 3, depth 5) -132.225 novelty-retry | Use a modified hyperbolic tangent function to prioritize bins based on remaining
+[15:06:15]   round 5: batch=[17, 18, 19, 20] (legal=[0, 17, 18, 19, 20])
+[15:07:19]     node 21 (branch 0, depth 6) -2.175 dup=round_02#24 novelty-retry | Use a modified inverse power-law function with a softening factor to prioritize 
+[15:07:19]     node 22 (branch 1, depth 6) -132.225 dup=round_03#18 novelty-retry | Use a modified sigmoid function to prioritize bins based on remaining capacity.
+[15:07:19]     node 23 (branch 2, depth 6) -2.175 dup=round_01#17 novelty-retry | Use a modified inverse exponential function to prioritize bins based on remainin
+[15:07:19]     node 24 (branch 3, depth 6) FAIL: runtime error: ValueError: priority returned NaN or inf values repaired=Falsex2 novelty-retry | Use a modified inverse hyperbolic tangent function to prioritize bins based on r
+[15:07:19]   round 6: policy chose to stop
+[15:07:19] round 3 done: 24 calls in 356.2s, round best -2.174999999999997, best so far -2.174999999999997 (held-out -4.199999999999989), cumulative 72
+[15:07:19] === round 4/4: online rollout with policy_round_04.py ===
+[15:07:19]   round 0: batch=[0, 0, 0, 0] (legal=[0])
+[15:08:30]     node 1 (branch 0, depth 1) -2.175 dup=round_01#8 novelty-retry | Use a linear decay function to prioritize bins based on remaining capacity.
+[15:08:30]     node 2 (branch 1, depth 1) -2.775 dup=round_02#4 novelty-retry | Use a piecewise linear function to prioritize bins based on remaining capacity.
+[15:08:30]     node 3 (branch 2, depth 1) -2.175 novelty-retry | Use a modified inverse square root function to prioritize bins based on remainin
+[15:08:30]     node 4 (branch 3, depth 1) -2.175 dup=round_01#14 novelty-retry | Use a linear decay function to prioritize bins based on remaining capacity.
+[15:08:31]   round 1: batch=[1, 2, 3, 4] (legal=[0, 1, 2, 3, 4])
+[15:09:34]     node 5 (branch 0, depth 2) -88.925 dup=round_04#1 novelty-retry | Use a piecewise linear function to prioritize bins based on remaining capacity.
+[15:09:34]     node 6 (branch 1, depth 2) -2.775 dup=round_04#2 novelty-retry | Use a piecewise quadratic function to prioritize bins based on remaining capacit
+[15:09:34]     node 7 (branch 2, depth 2) -2.175 dup=round_01#6 novelty-retry | Use a modified logarithmic function to prioritize bins based on remaining capaci
+[15:09:34]     node 8 (branch 3, depth 2) -2.175 dup=round_01#16 novelty-retry | Use a modified exponential decay function with a different softening factor to p
+[15:09:34]   round 2: batch=[5, 6, 7, 8] (legal=[0, 5, 6, 7, 8])
+[15:10:46]     node 9 (branch 0, depth 3) -88.925 dup=round_04#5 novelty-retry | Use a piecewise quadratic function to prioritize bins based on remaining capacit
+[15:10:46]     node 10 (branch 1, depth 3) -2.175 dup=round_01#5 novelty-retry | Use a modified exponential decay function with a different softening factor to p
+[15:10:46]     node 11 (branch 2, depth 3) -2.175 dup=round_02#6 novelty-retry | Use a modified power-law decay function with a softening factor to prioritize bi
+[15:10:46]     node 12 (branch 3, depth 3) -2.175 dup=round_04#1 novelty-retry | Use a modified linear decay function to prioritize bins based on remaining capac
+[15:10:46]   round 3: batch=[9, 10, 11, 12] (legal=[0, 9, 10, 11, 12])
+[15:11:45]     node 13 (branch 0, depth 4) -132.225 novelty-retry | Use a sigmoid function to prioritize bins based on remaining capacity.
+[15:11:45]     node 14 (branch 1, depth 4) -10.100 dup=round_04#10 novelty-retry | Use a modified inverse power-law function to prioritize bins based on remaining 
+[15:11:45]     node 15 (branch 2, depth 4) -132.225 novelty-retry | Use a modified inverse quadratic function to prioritize bins based on remaining 
+[15:11:45]     node 16 (branch 3, depth 4) -2.175 dup=round_03#7 novelty-retry | Use a modified inverse quadratic function to prioritize bins based on remaining 
+[15:11:45]   round 4: batch=[13, 14, 15, 16] (legal=[0, 13, 14, 15, 16])
+[15:12:33]     node 17 (branch 0, depth 5) -132.225 dup=round_03#20 novelty-retry | Use a modified hyperbolic tangent function to prioritize bins based on remaining
+[15:12:33]     node 18 (branch 1, depth 5) -132.225 dup=round_04#4 novelty-retry | Use a modified linear function to prioritize bins based on remaining capacity.
+[15:12:33]     node 19 (branch 2, depth 5) FAIL: runtime error: ValueError: priority returned NaN or inf values repaired=Falsex2 novelty-retry | Use a modified inverse hyperbolic tangent function to prioritize bins based on r
+[15:12:33]     node 20 (branch 3, depth 5) -2.175 dup=round_03#11 novelty-retry | Use a modified inverse exponential function to prioritize bins based on remainin
+[15:12:33]   round 5: batch=[17, 18, 19, 20] (legal=[0, 17, 18, 19, 20])
+[15:13:32]     node 21 (branch 0, depth 6) -2.175 | Use a modified inverse linear function with a softening factor to prioritize bin
+[15:13:32]     node 22 (branch 1, depth 6) -132.225 dup=round_01#6 novelty-retry | Use a modified logarithmic function to prioritize bins based on remaining capaci
+[15:13:32]     node 23 (branch 2, depth 6) -2.175 repaired=Truex2 dup=round_04#19 novelty-retry | Use a modified inverse sine function to prioritize bins based on remaining capac
+[15:13:32]     node 24 (branch 3, depth 6) -2.175 dup=round_04#16 novelty-retry | Use a modified inverse quadratic function to prioritize bins based on remaining 
+[15:13:32]   round 6: policy chose to stop
+[15:13:32] round 4 done: 24 calls in 373.5s, round best -2.174999999999997, best so far -2.174999999999997 (held-out -4.199999999999989), cumulative 96
+[15:13:32] finished. total discovery-agent calls 96; llm stats {'calls': 192, 'prompt_tokens': 276391, 'completion_tokens': 16852, 'seconds': 4418.5}

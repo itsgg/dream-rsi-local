@@ -1,0 +1,179 @@
+{
+ "meta": {
+  "name": "round_02",
+  "round": 2,
+  "policy": "/Users/gg/Work/GG/dream-rsi-local/runs/dream_r4/policy_round_02.py",
+  "task": "binpack_u120",
+  "W": 4,
+  "max_depth": 6,
+  "max_branches": 8,
+  "rounds": 2,
+  "seconds": 67.8,
+  "policy_violations": 0
+ },
+ "nodes": [
+  {
+   "id": 0,
+   "parent": null,
+   "branch": -1,
+   "depth": 0,
+   "round": 0,
+   "created": 0,
+   "ok": true,
+   "score": null,
+   "error": null,
+   "mechanism": "<root>",
+   "code": "",
+   "metrics": {}
+  },
+  {
+   "id": 1,
+   "parent": 0,
+   "branch": 0,
+   "depth": 1,
+   "round": 0,
+   "created": 1,
+   "ok": true,
+   "score": -4.5,
+   "error": null,
+   "mechanism": "Penalize bins based on the gap between remaining capacity and item size, favoring larger gaps, but also consider the remaining capacity to encourage spreading.",
+   "code": "# MECHANISM: Penalize bins based on the gap between remaining capacity and item size, favoring larger gaps, but also consider the remaining capacity to encourage spreading.\n\nimport numpy as np\n\ndef priority(item, bins):\n    gaps = bins - item\n    valid_gaps = np.maximum(gaps, 0)\n    return -valid_gaps / (item + bins)  # Avoid division by zero and favor larger gaps while encouraging spreading\n",
+   "metrics": {
+    "mean_bins": 79.8,
+    "mean_l1": 75.3,
+    "heldout_score": -10.800000000000011,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 2,
+   "parent": 0,
+   "branch": 1,
+   "depth": 1,
+   "round": 0,
+   "created": 2,
+   "ok": true,
+   "score": -4.5,
+   "error": null,
+   "mechanism": "Penalize bins based on the gap between remaining capacity and item size, favoring both larger gaps and remaining capacity.",
+   "code": "# MECHANISM: Penalize bins based on the gap between remaining capacity and item size, favoring both larger gaps and remaining capacity.\n\nimport numpy as np\n\ndef priority(item, bins):\n    gaps = bins - item\n    valid_gaps = np.maximum(gaps, 0)\n    priority_scores = -valid_gaps / (item + 1e-10)\n    priority_scores += valid_gaps / (bins + 1e-10)\n    return priority_scores\n",
+   "metrics": {
+    "mean_bins": 79.8,
+    "mean_l1": 75.3,
+    "heldout_score": -10.800000000000011,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 3,
+   "parent": 0,
+   "branch": 2,
+   "depth": 1,
+   "round": 0,
+   "created": 3,
+   "ok": true,
+   "score": -4.5,
+   "error": null,
+   "mechanism": "Penalize bins based on the gap between remaining capacity and item size, favoring gaps proportional to the remaining capacity.",
+   "code": "# MECHANISM: Penalize bins based on the gap between remaining capacity and item size, favoring gaps proportional to the remaining capacity.\n\nimport numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    gaps = bins - item\n    valid_gaps = np.maximum(gaps, 0)\n    return -valid_gaps / (bins - valid_gaps + 1e-10)  # Avoid division by zero and favor gaps proportional to remaining capacity\n",
+   "metrics": {
+    "mean_bins": 79.8,
+    "mean_l1": 75.3,
+    "heldout_score": -10.800000000000011,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 4,
+   "parent": 0,
+   "branch": 3,
+   "depth": 1,
+   "round": 0,
+   "created": 4,
+   "ok": true,
+   "score": -4.5,
+   "error": null,
+   "mechanism": "Penalize bins based on the gap between remaining capacity and item size, but also consider the remaining capacity to encourage spreading, with a combination of linear and logarithmic transformations.",
+   "code": "# MECHANISM: Penalize bins based on the gap between remaining capacity and item size, but also consider the remaining capacity to encourage spreading, with a combination of linear and logarithmic transformations.\n\nimport numpy as np\n\ndef priority(item, bins):\n    gaps = bins - item\n    valid_gaps = np.maximum(gaps, 0)\n    linear_term = -valid_gaps / (item + 1e-10)\n    log_term = -np.log(valid_gaps + 1e-10)\n    return linear_term + 0.1 * log_term\n",
+   "metrics": {
+    "mean_bins": 79.8,
+    "mean_l1": 75.3,
+    "heldout_score": -10.800000000000011,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 5,
+   "parent": 0,
+   "branch": 4,
+   "depth": 1,
+   "round": 1,
+   "created": 5,
+   "ok": false,
+   "score": null,
+   "error": "runtime error: candidate.py:9: RuntimeWarning: divide by zero encountered in divide | ValueError: priority returned shape (106,), expected (106,), finite=False",
+   "mechanism": "Penalize bins based on the logarithm of the remaining capacity and the gap to the smallest item size, with a penalty for small gaps.",
+   "code": "# MECHANISM: Penalize bins based on the logarithm of the remaining capacity and the gap to the smallest item size, with a penalty for small gaps.\n\nimport numpy as np\n\ndef priority(item, bins):\n    gaps = bins - item\n    valid_gaps = np.maximum(gaps, 0)\n    penalty = np.log(valid_gaps + 1e-10)  # Avoid log(0)\n    small_gap_penalty = np.where(gaps < 10, 10 / gaps, 0)\n    return -(penalty + small_gap_penalty)\n",
+   "metrics": {
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 6,
+   "parent": 0,
+   "branch": 5,
+   "depth": 1,
+   "round": 1,
+   "created": 6,
+   "ok": true,
+   "score": -4.5,
+   "error": null,
+   "mechanism": "Penalize bins based on the gap between remaining capacity and item size, favoring larger gaps, and also consider the remaining capacity to encourage spreading, with a combination of linear and logarit",
+   "code": "# MECHANISM: Penalize bins based on the gap between remaining capacity and item size, favoring larger gaps, and also consider the remaining capacity to encourage spreading, with a combination of linear and logarithmic transformations.\n\nimport numpy as np\n\ndef priority(item, bins):\n    gaps = bins - item\n    valid_gaps = np.maximum(gaps, 0)\n    linear_term = -valid_gaps / (item + 1e-10)\n    log_term = -np.log(valid_gaps + 1e-10)\n    return linear_term + log_term\n",
+   "metrics": {
+    "mean_bins": 79.8,
+    "mean_l1": 75.3,
+    "heldout_score": -10.800000000000011,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 7,
+   "parent": 0,
+   "branch": 6,
+   "depth": 1,
+   "round": 1,
+   "created": 7,
+   "ok": true,
+   "score": -4.5,
+   "error": null,
+   "mechanism": "Penalize bins based on the square of the remaining capacity and the gap to the item size, favoring larger gaps.",
+   "code": "# MECHANISM: Penalize bins based on the square of the remaining capacity and the gap to the item size, favoring larger gaps.\n\nimport numpy as np\n\ndef priority(item, bins):\n    gaps = bins - item\n    valid_gaps = np.maximum(gaps, 0)\n    return -valid_gaps**2 / (item + 1e-10)  # Avoid division by zero and favor larger gaps\n",
+   "metrics": {
+    "mean_bins": 79.8,
+    "mean_l1": 75.3,
+    "heldout_score": -10.800000000000011,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 8,
+   "parent": 0,
+   "branch": 7,
+   "depth": 1,
+   "round": 1,
+   "created": 8,
+   "ok": true,
+   "score": -4.5,
+   "error": null,
+   "mechanism": "Penalize bins based on the gap between remaining capacity and item size, favoring exact fits.",
+   "code": "# MECHANISM: Penalize bins based on the gap between remaining capacity and item size, favoring exact fits.\n\nimport numpy as np\n\ndef priority(item, bins):\n    gaps = bins - item\n    valid_gaps = np.maximum(gaps, 0)\n    return -valid_gaps / (item + 1e-10)  # Avoid division by zero and favor larger gaps\n",
+   "metrics": {
+    "mean_bins": 79.8,
+    "mean_l1": 75.3,
+    "heldout_score": -10.800000000000011,
+    "llm_calls": 1
+   }
+  }
+ ]
+}

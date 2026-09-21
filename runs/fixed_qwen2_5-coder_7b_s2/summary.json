@@ -1,0 +1,150 @@
+{
+ "name": "fixed_qwen2_5-coder_7b_s2",
+ "config": {
+  "W": 4,
+  "max_branches": 8,
+  "max_depth": 6,
+  "K1": 10,
+  "K2": 10,
+  "M": 4,
+  "beta1": 0.005,
+  "beta2": 0.01,
+  "baseline_score": -2.7749999999999915,
+  "seed_program": "funsearch_or",
+  "mode": "fixed",
+  "model": "qwen2.5-coder:7b",
+  "policy_model": "qwen2.5-coder:7b",
+  "rounds": 4,
+  "sampling_seed": 2,
+  "temperature": 0.8,
+  "policy_temperature": 0.7,
+  "policy_timeout": 30.0,
+  "num_ctx": 8192,
+  "num_predict": 1200,
+  "policy_num_predict": 2500,
+  "task": "binpack_uniform_c150",
+  "train_spec": {
+   "seed": 10,
+   "n_inst": 40,
+   "n_items": 200,
+   "cap": 150,
+   "lo": 1,
+   "hi": 100
+  },
+  "heldout_spec": {
+   "seed": 777,
+   "n_inst": 20,
+   "n_items": 500,
+   "cap": 150,
+   "lo": 1,
+   "hi": 100
+  },
+  "reference_scores": {
+   "first_fit": -2.7249999999999943,
+   "best_fit": -2.174999999999997,
+   "funsearch_or": -2.7749999999999915
+  },
+  "code_commit": "29aa5b2",
+  "repair_rounds": 2,
+  "novelty_threshold": 0.95,
+  "embed_model": "bge-m3"
+ },
+ "rounds": [
+  {
+   "round": 1,
+   "policy": "policy_round_01.py",
+   "calls": 24,
+   "cumulative_calls": 24,
+   "agent_llm_calls": 40,
+   "repaired": 0,
+   "near_duplicates": 14,
+   "decision_rounds": 6,
+   "failed": 1,
+   "round_best": -2.174999999999997,
+   "round_best_heldout": -4.199999999999989,
+   "best_so_far": -2.174999999999997,
+   "best_so_far_heldout": -4.199999999999989,
+   "best_mechanism": "unspecified",
+   "rollout_seconds": 394.8,
+   "policy_fallback_round": null,
+   "llm": {
+    "calls": 40,
+    "prompt_tokens": 48789,
+    "completion_tokens": 4198,
+    "seconds": 1218.6
+   }
+  },
+  {
+   "round": 2,
+   "policy": "policy_round_02.py",
+   "calls": 24,
+   "cumulative_calls": 48,
+   "agent_llm_calls": 49,
+   "repaired": 0,
+   "near_duplicates": 21,
+   "decision_rounds": 6,
+   "failed": 1,
+   "round_best": -2.174999999999997,
+   "round_best_heldout": -4.149999999999977,
+   "best_so_far": -2.174999999999997,
+   "best_so_far_heldout": -4.199999999999989,
+   "best_mechanism": "unspecified",
+   "rollout_seconds": 740.1,
+   "policy_fallback_round": null,
+   "llm": {
+    "calls": 89,
+    "prompt_tokens": 133671,
+    "completion_tokens": 11306,
+    "seconds": 3627.5
+   }
+  },
+  {
+   "round": 3,
+   "policy": "policy_round_03.py",
+   "calls": 24,
+   "cumulative_calls": 72,
+   "agent_llm_calls": 46,
+   "repaired": 0,
+   "near_duplicates": 20,
+   "decision_rounds": 6,
+   "failed": 0,
+   "round_best": -2.1499999999999915,
+   "round_best_heldout": -4.149999999999977,
+   "best_so_far": -2.1499999999999915,
+   "best_so_far_heldout": -4.149999999999977,
+   "best_mechanism": "Use a combination of logarithmic function for remaining capacity and exponential decay for bin utilization to prioritize bins effectively",
+   "rollout_seconds": 882.9,
+   "policy_fallback_round": null,
+   "llm": {
+    "calls": 135,
+    "prompt_tokens": 225695,
+    "completion_tokens": 21171,
+    "seconds": 6582.9
+   }
+  },
+  {
+   "round": 4,
+   "policy": "policy_round_04.py",
+   "calls": 24,
+   "cumulative_calls": 96,
+   "agent_llm_calls": 51,
+   "repaired": 3,
+   "near_duplicates": 21,
+   "decision_rounds": 6,
+   "failed": 0,
+   "round_best": -2.1499999999999915,
+   "round_best_heldout": -4.149999999999977,
+   "best_so_far": -2.1499999999999915,
+   "best_so_far_heldout": -4.149999999999977,
+   "best_mechanism": "Use a combination of logarithmic function for remaining capacity and exponential decay for bin utilization to prioritize bins effectively",
+   "rollout_seconds": 941.9,
+   "policy_fallback_round": null,
+   "llm": {
+    "calls": 186,
+    "prompt_tokens": 324996,
+    "completion_tokens": 32643,
+    "seconds": 9698.7
+   }
+  }
+ ]
+}

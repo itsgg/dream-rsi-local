@@ -1,0 +1,162 @@
+[
+ {
+  "name": "v00 (incumbent)",
+  "path": "/Users/gg/Work/GG/dream-rsi-local/runs/dream_r4/round_03/dream/v00.py",
+  "mean_V": -2.2083333333333304,
+  "errors": [],
+  "per_tree": [
+   {
+    "tree": "round_01",
+    "V": -2.174999999999997,
+    "best": -2.174999999999997,
+    "N": 6,
+    "rounds": 2,
+    "revealed_all": false,
+    "error": null,
+    "violations": 0
+   },
+   {
+    "tree": "round_02",
+    "V": -2.2216666666666636,
+    "best": -2.174999999999997,
+    "N": 14,
+    "rounds": 6,
+    "revealed_all": true,
+    "error": null,
+    "violations": 0
+   },
+   {
+    "tree": "round_03",
+    "V": -2.2283333333333304,
+    "best": -2.174999999999997,
+    "N": 16,
+    "rounds": 6,
+    "revealed_all": true,
+    "error": null,
+    "violations": 0
+   }
+  ]
+ },
+ {
+  "name": "v01",
+  "path": "/Users/gg/Work/GG/dream-rsi-local/runs/dream_r4/round_03/dream/v01.py",
+  "mean_V": -2.2083333333333304,
+  "errors": [],
+  "per_tree": [
+   {
+    "tree": "round_01",
+    "V": -2.174999999999997,
+    "best": -2.174999999999997,
+    "N": 6,
+    "rounds": 2,
+    "revealed_all": false,
+    "error": null,
+    "violations": 0
+   },
+   {
+    "tree": "round_02",
+    "V": -2.2216666666666636,
+    "best": -2.174999999999997,
+    "N": 14,
+    "rounds": 6,
+    "revealed_all": true,
+    "error": null,
+    "violations": 0
+   },
+   {
+    "tree": "round_03",
+    "V": -2.2283333333333304,
+    "best": -2.174999999999997,
+    "N": 16,
+    "rounds": 6,
+    "revealed_all": true,
+    "error": null,
+    "violations": 0
+   }
+  ]
+ },
+ {
+  "name": "v02",
+  "path": "/Users/gg/Work/GG/dream-rsi-local/runs/dream_r4/round_03/dream/v02.py",
+  "mean_V": -Infinity,
+  "errors": [
+   "policy crashed:     promising_ids = [obs.id for obs in legal if obs.id != view.root] |                                                 ^^^^^^ | AttributeError: 'int' object has no attribute 'id'",
+   "policy crashed:     promising_ids = [obs.id for obs in legal if obs.id != view.root] |                                                 ^^^^^^ | AttributeError: 'int' object has no attribute 'id'",
+   "policy crashed:     promising_ids = [obs.id for obs in legal if obs.id != view.root] |                                                 ^^^^^^ | AttributeError: 'int' object has no attribute 'id'"
+  ],
+  "per_tree": [
+   {
+    "tree": "round_01",
+    "V": -2.154999999999997,
+    "best": -2.174999999999997,
+    "N": 4,
+    "rounds": 1,
+    "revealed_all": false,
+    "error": "policy crashed:     promising_ids = [obs.id for obs in legal if obs.id != view.root] |                                                 ^^^^^^ | AttributeError: 'int' object has no attribute 'id'",
+    "violations": 0
+   },
+   {
+    "tree": "round_02",
+    "V": -2.154999999999997,
+    "best": -2.174999999999997,
+    "N": 4,
+    "rounds": 1,
+    "revealed_all": false,
+    "error": "policy crashed:     promising_ids = [obs.id for obs in legal if obs.id != view.root] |                                                 ^^^^^^ | AttributeError: 'int' object has no attribute 'id'",
+    "violations": 0
+   },
+   {
+    "tree": "round_03",
+    "V": -2.154999999999997,
+    "best": -2.174999999999997,
+    "N": 4,
+    "rounds": 1,
+    "revealed_all": false,
+    "error": "policy crashed:     promising_ids = [obs.id for obs in legal if obs.id != view.root] |                                                 ^^^^^^ | AttributeError: 'int' object has no attribute 'id'",
+    "violations": 0
+   }
+  ]
+ },
+ {
+  "name": "v03",
+  "path": "/Users/gg/Work/GG/dream-rsi-local/runs/dream_r4/round_03/dream/v03.py",
+  "mean_V": -Infinity,
+  "errors": [
+   "policy crashed:     promising_ids = [obs.id for obs in view.legal_actions() if obs.id != view.root] |                                                                ^^^^^^ | AttributeError: 'int' object has no attribute 'id'",
+   "policy crashed:     promising_ids = [obs.id for obs in view.legal_actions() if obs.id != view.root] |                                                                ^^^^^^ | AttributeError: 'int' object has no attribute 'id'",
+   "policy crashed:     promising_ids = [obs.id for obs in view.legal_actions() if obs.id != view.root] |                                                                ^^^^^^ | AttributeError: 'int' object has no attribute 'id'"
+  ],
+  "per_tree": [
+   {
+    "tree": "round_01",
+    "V": -2.154999999999997,
+    "best": -2.174999999999997,
+    "N": 4,
+    "rounds": 1,
+    "revealed_all": false,
+    "error": "policy crashed:     promising_ids = [obs.id for obs in view.legal_actions() if obs.id != view.root] |                                                                ^^^^^^ | AttributeError: 'int' object has no attribute 'id'",
+    "violations": 0
+   },
+   {
+    "tree": "round_02",
+    "V": -2.154999999999997,
+    "best": -2.174999999999997,
+    "N": 4,
+    "rounds": 1,
+    "revealed_all": false,
+    "error": "policy crashed:     promising_ids = [obs.id for obs in view.legal_actions() if obs.id != view.root] |                                                                ^^^^^^ | AttributeError: 'int' object has no attribute 'id'",
+    "violations": 0
+   },
+   {
+    "tree": "round_03",
+    "V": -2.154999999999997,
+    "best": -2.174999999999997,
+    "N": 4,
+    "rounds": 1,
+    "revealed_all": false,
+    "error": "policy crashed:     promising_ids = [obs.id for obs in view.legal_actions() if obs.id != view.root] |                                                                ^^^^^^ | AttributeError: 'int' object has no attribute 'id'",
+    "violations": 0
+   }
+  ]
+ }
+]

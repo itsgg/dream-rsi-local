@@ -1,0 +1,123 @@
+[
+ {
+  "name": "v00 (incumbent)",
+  "path": "/Users/gg/Work/GG/dream-rsi-local/runs/dream_qwen2_5-coder_7b_s3/round_02/dream/v00.py",
+  "mean_V": -2.2549999999999972,
+  "errors": [],
+  "per_tree": [
+   {
+    "tree": "round_01",
+    "V": -2.2549999999999972,
+    "best": -2.174999999999997,
+    "N": 24,
+    "rounds": 6,
+    "revealed_all": true,
+    "error": null,
+    "violations": 0
+   },
+   {
+    "tree": "round_02",
+    "V": -2.2549999999999972,
+    "best": -2.174999999999997,
+    "N": 24,
+    "rounds": 6,
+    "revealed_all": true,
+    "error": null,
+    "violations": 0
+   }
+  ]
+ },
+ {
+  "name": "v01",
+  "path": "/Users/gg/Work/GG/dream-rsi-local/runs/dream_qwen2_5-coder_7b_s3/round_02/dream/v01.py",
+  "mean_V": null,
+  "errors": [
+   "policy crashed:     frontier_scores = {b: (fr.score, fr.depth) for b, fr in branches.items() if fr.id in legal} |                                                                                 ^^^^^ | AttributeError: 'list' object has no attribute 'id'",
+   "policy crashed:     frontier_scores = {b: (fr.score, fr.depth) for b, fr in branches.items() if fr.id in legal} |                                                                                 ^^^^^ | AttributeError: 'list' object has no attribute 'id'"
+  ],
+  "per_tree": [
+   {
+    "tree": "round_01",
+    "V": -2.2549999999999915,
+    "best": -2.2749999999999915,
+    "N": 4,
+    "rounds": 1,
+    "revealed_all": false,
+    "error": "policy crashed:     frontier_scores = {b: (fr.score, fr.depth) for b, fr in branches.items() if fr.id in legal} |                                                                                 ^^^^^ | AttributeError: 'list' object has no attribute 'id'",
+    "violations": 0
+   },
+   {
+    "tree": "round_02",
+    "V": -2.154999999999997,
+    "best": -2.174999999999997,
+    "N": 4,
+    "rounds": 1,
+    "revealed_all": false,
+    "error": "policy crashed:     frontier_scores = {b: (fr.score, fr.depth) for b, fr in branches.items() if fr.id in legal} |                                                                                 ^^^^^ | AttributeError: 'list' object has no attribute 'id'",
+    "violations": 0
+   }
+  ]
+ },
+ {
+  "name": "v02",
+  "path": "/Users/gg/Work/GG/dream-rsi-local/runs/dream_qwen2_5-coder_7b_s3/round_02/dream/v02.py",
+  "mean_V": null,
+  "errors": [
+   "policy crashed:     frontier_scores = {b: (fr.score, fr.depth) for b, fr in branches.items() if fr.id in legal} |                                                                                 ^^^^^ | AttributeError: 'list' object has no attribute 'id'",
+   "policy crashed:     frontier_scores = {b: (fr.score, fr.depth) for b, fr in branches.items() if fr.id in legal} |                                                                                 ^^^^^ | AttributeError: 'list' object has no attribute 'id'"
+  ],
+  "per_tree": [
+   {
+    "tree": "round_01",
+    "V": -3.12,
+    "best": -3.125,
+    "N": 1,
+    "rounds": 1,
+    "revealed_all": false,
+    "error": "policy crashed:     frontier_scores = {b: (fr.score, fr.depth) for b, fr in branches.items() if fr.id in legal} |                                                                                 ^^^^^ | AttributeError: 'list' object has no attribute 'id'",
+    "violations": 0
+   },
+   {
+    "tree": "round_02",
+    "V": -2.7699999999999916,
+    "best": -2.7749999999999915,
+    "N": 1,
+    "rounds": 1,
+    "revealed_all": false,
+    "error": "policy crashed:     frontier_scores = {b: (fr.score, fr.depth) for b, fr in branches.items() if fr.id in legal} |                                                                                 ^^^^^ | AttributeError: 'list' object has no attribute 'id'",
+    "violations": 0
+   }
+  ]
+ },
+ {
+  "name": "v03",
+  "path": "/Users/gg/Work/GG/dream-rsi-local/runs/dream_qwen2_5-coder_7b_s3/round_02/dream/v03.py",
+  "mean_V": null,
+  "errors": [
+   "policy crashed:     recoverable = [fr.id for fr in view.frontier(b).values() if fr.id in legal and fr.error and 'recoverable' in fr.error] |                                                  ^ | NameError: name 'b' is not defined",
+   "policy crashed:     recoverable = [fr.id for fr in view.frontier(b).values() if fr.id in legal and fr.error and 'recoverable' in fr.error] |                                                  ^ | NameError: name 'b' is not defined"
+  ],
+  "per_tree": [
+   {
+    "tree": "round_01",
+    "V": -2.2549999999999915,
+    "best": -2.2749999999999915,
+    "N": 4,
+    "rounds": 1,
+    "revealed_all": false,
+    "error": "policy crashed:     recoverable = [fr.id for fr in view.frontier(b).values() if fr.id in legal and fr.error and 'recoverable' in fr.error] |                                                  ^ | NameError: name 'b' is not defined",
+    "violations": 0
+   },
+   {
+    "tree": "round_02",
+    "V": -2.154999999999997,
+    "best": -2.174999999999997,
+    "N": 4,
+    "rounds": 1,
+    "revealed_all": false,
+    "error": "policy crashed:     recoverable = [fr.id for fr in view.frontier(b).values() if fr.id in legal and fr.error and 'recoverable' in fr.error] |                                                  ^ | NameError: name 'b' is not defined",
+    "violations": 0
+   }
+  ]
+ }
+]

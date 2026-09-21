@@ -1,0 +1,106 @@
+{
+ "meta": {
+  "name": "round_04",
+  "round": 4,
+  "policy": "/Users/gg/Work/GG/dream-rsi-local/runs/dream_r4/policy_round_04.py",
+  "task": "binpack_uniform_c150",
+  "W": 4,
+  "max_depth": 6,
+  "max_branches": 8,
+  "rounds": 1,
+  "seconds": 103.0,
+  "policy_violations": 0
+ },
+ "nodes": [
+  {
+   "id": 0,
+   "parent": null,
+   "branch": -1,
+   "depth": 0,
+   "round": 0,
+   "created": 0,
+   "ok": true,
+   "score": null,
+   "error": null,
+   "mechanism": "<root>",
+   "code": "",
+   "metrics": {}
+  },
+  {
+   "id": 1,
+   "parent": 0,
+   "branch": 0,
+   "depth": 1,
+   "round": 0,
+   "created": 1,
+   "ok": false,
+   "score": null,
+   "error": "runtime error: IndexError: only integers, slices (`:`), ellipsis (`...`), numpy.newaxis (`None`) and integer or boolean arrays are valid indices | File \"candidate.py\", line 18, in priority",
+   "mechanism": "Introduce a penalty for leftover gaps smaller than the smallest item to encourage better packing, and adjust for spread.",
+   "code": "import numpy as np\n# MECHANISM: Introduce a penalty for leftover gaps smaller than the smallest item to encourage better packing, and adjust for spread.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = 0.1 * np.minimum(bins - item, 20)\n    spread = 100 * np.mean(bins < 100)\n    return np.array([s(b, item) + penalty[b] - spread for b in bins])\n",
+   "metrics": {
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 2,
+   "parent": 0,
+   "branch": 1,
+   "depth": 1,
+   "round": 0,
+   "created": 2,
+   "ok": true,
+   "score": -2.1499999999999915,
+   "error": null,
+   "mechanism": "Introduce a preference for already-used bins over empty ones to encourage faster filling, and a penalty for leftover gaps smaller than the smallest item to encourage better packing.",
+   "code": "import numpy as np\n# MECHANISM: Introduce a preference for already-used bins over empty ones to encourage faster filling, and a penalty for leftover gaps smaller than the smallest item to encourage better packing.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    return np.array([s(b, item) + (150 - b - item) / (150 - item) for b in bins])\n",
+   "metrics": {
+    "mean_bins": 69.925,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.049999999999983,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 3,
+   "parent": 0,
+   "branch": 2,
+   "depth": 1,
+   "round": 0,
+   "created": 3,
+   "ok": true,
+   "score": -2.1499999999999915,
+   "error": null,
+   "mechanism": "Introduce a penalty for leftover gaps smaller than the smallest item to encourage better packing, and prefer already-used bins over empty ones to encourage faster filling.",
+   "code": "import numpy as np\n# MECHANISM: Introduce a penalty for leftover gaps smaller than the smallest item to encourage better packing, and prefer already-used bins over empty ones to encourage faster filling.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    return np.array([s(b, item) + (150 - b - item) / (150 - item) for b in bins])\n",
+   "metrics": {
+    "mean_bins": 69.925,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.049999999999983,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 4,
+   "parent": 0,
+   "branch": 3,
+   "depth": 1,
+   "round": 0,
+   "created": 4,
+   "ok": true,
+   "score": -2.1499999999999915,
+   "error": null,
+   "mechanism": "Introduce a penalty for leftover gaps smaller than the smallest item to encourage better packing.",
+   "code": "import numpy as np\n\n# MECHANISM: Introduce a penalty for leftover gaps smaller than the smallest item to encourage better packing.\n# Additionally, introduce a preference for already-used bins over empty ones to encourage faster filling.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.where(bins < item, 1.5, 1)  # Penalty for bins that can't fit the item\n    return np.array([s(b, item) * penalty[i] + (150 - b - item) / (150 - item) for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 69.925,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.049999999999983,
+    "llm_calls": 1
+   }
+  }
+ ]
+}

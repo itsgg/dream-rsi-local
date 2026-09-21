@@ -1,0 +1,510 @@
+{
+ "meta": {
+  "name": "round_02",
+  "round": 2,
+  "policy": "/Users/gg/Work/GG/dream-rsi-local/runs/fixed_r4/policy_round_02.py",
+  "task": "binpack_uniform_c150",
+  "W": 4,
+  "max_depth": 6,
+  "max_branches": 8,
+  "rounds": 6,
+  "seconds": 808.8,
+  "policy_violations": 0
+ },
+ "nodes": [
+  {
+   "id": 0,
+   "parent": null,
+   "branch": -1,
+   "depth": 0,
+   "round": 0,
+   "created": 0,
+   "ok": true,
+   "score": null,
+   "error": null,
+   "mechanism": "<root>",
+   "code": "",
+   "metrics": {}
+  },
+  {
+   "id": 1,
+   "parent": 0,
+   "branch": 0,
+   "depth": 1,
+   "round": 0,
+   "created": 1,
+   "ok": true,
+   "score": -132.225,
+   "error": null,
+   "mechanism": "Introduce a penalty for bins with leftover space smaller than the smallest item (20) and a small penalty for unused bins.",
+   "code": "import numpy as np\n\n# MECHANISM: Introduce a penalty for bins with leftover space smaller than the smallest item (20) and a small penalty for unused bins.\n\ndef priority(item, bins):\n    smallest_item = 1\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.maximum(0, 20 - (bins - item))\n    return np.array([s(b, item) - penalty[i] - 0.01 * (150 - b) for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 200.0,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the EMPTIEST bin (worst-fit behaviour): this is why the score collapsed; -129.45 vs baseline",
+    "heldout_score": -330.95,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 2,
+   "parent": 0,
+   "branch": 1,
+   "depth": 1,
+   "round": 0,
+   "created": 2,
+   "ok": true,
+   "score": -2.1499999999999915,
+   "error": null,
+   "mechanism": "Introduce a penalty for bins with leftover space smaller than the smallest item, and a nonlinear transformation to encourage better bin utilization.",
+   "code": "import numpy as np\n# MECHANISM: Introduce a penalty for bins with leftover space smaller than the smallest item, and a nonlinear transformation to encourage better bin utilization.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.maximum(0, 1 - (bins - item) / 150)\n    return np.array([s(b, item) * penalty[i] for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 69.925,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.199999999999989,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 3,
+   "parent": 0,
+   "branch": 2,
+   "depth": 1,
+   "round": 0,
+   "created": 3,
+   "ok": true,
+   "score": -2.1499999999999915,
+   "error": null,
+   "mechanism": "Introduce a penalty for bins with leftover space smaller than the smallest item and adjust the penalty for unused bins.",
+   "code": "import numpy as np\n\n# MECHANISM: Introduce a penalty for bins with leftover space smaller than the smallest item and adjust the penalty for unused bins.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.where(bins < item, 0.5, 0)\n    return np.array([s(b, item) + penalty[i] + (150 - b) / 150 for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 69.925,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.25,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 4,
+   "parent": 0,
+   "branch": 3,
+   "depth": 1,
+   "round": 0,
+   "created": 4,
+   "ok": true,
+   "score": -2.1499999999999915,
+   "error": null,
+   "mechanism": "Introduce a preference for already-used bins over fresh ones to reduce fragmentation and add a penalty for bins with leftover space smaller than the smallest item.",
+   "code": "import numpy as np\n# MECHANISM: Introduce a preference for already-used bins over fresh ones to reduce fragmentation and add a penalty for bins with leftover space smaller than the smallest item.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.where(bins < item, 1, 0)  # Penalty for bins with leftover space smaller than the item\n    fragmentation = (150 - bins) / 150  # Preference for already-used bins over fresh ones\n    return np.array([s(b, item) + penalty[i] + fragmentation[i] for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 69.925,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.25,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 5,
+   "parent": 1,
+   "branch": 0,
+   "depth": 2,
+   "round": 1,
+   "created": 5,
+   "ok": true,
+   "score": -132.225,
+   "error": null,
+   "mechanism": "Introduce a penalty for bins with leftover space smaller than the smallest item (20) and a small penalty for unused bins.",
+   "code": "import numpy as np\n\n# MECHANISM: Introduce a penalty for bins with leftover space smaller than the smallest item (20) and a small penalty for unused bins.\n\ndef priority(item, bins):\n    smallest_item = 1\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.maximum(0, 20 - (bins - item))\n    return np.array([s(b, item) - penalty[i] - 0.01 * (150 - b) for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 200.0,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the EMPTIEST bin (worst-fit behaviour): this is why the score collapsed; -129.45 vs baseline",
+    "heldout_score": -330.95,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 6,
+   "parent": 2,
+   "branch": 1,
+   "depth": 2,
+   "round": 1,
+   "created": 6,
+   "ok": true,
+   "score": -2.1499999999999915,
+   "error": null,
+   "mechanism": "Introduce a penalty for bins with leftover space smaller than the smallest item, and a preference for already-used bins over fresh ones to reduce fragmentation.",
+   "code": "import numpy as np\n# MECHANISM: Introduce a penalty for bins with leftover space smaller than the smallest item, and a preference for already-used bins over fresh ones to reduce fragmentation.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.maximum(0, 1 - (bins - item) / 150)\n    used_bins = bins < 150\n    return np.array([s(b, item) * penalty[i] * (2 * used_bins[i] + 1) for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 69.925,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.199999999999989,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 7,
+   "parent": 3,
+   "branch": 2,
+   "depth": 2,
+   "round": 1,
+   "created": 7,
+   "ok": true,
+   "score": -2.2749999999999915,
+   "error": null,
+   "mechanism": "Introduce a penalty for bins with leftover space smaller than the smallest item and adjust the penalty for unused bins.",
+   "code": "import numpy as np\n\n# MECHANISM: Introduce a penalty for bins with leftover space smaller than the smallest item and adjust the penalty for unused bins.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.where(bins < item, 0.5, 0)\n    unused_penalty = np.where(bins == 150, 0.1, 0)\n    return np.array([s(b, item) + penalty[i] + unused_penalty[i] + (150 - b) / 150 for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 70.05,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.549999999999983,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 8,
+   "parent": 4,
+   "branch": 3,
+   "depth": 2,
+   "round": 1,
+   "created": 8,
+   "ok": true,
+   "score": -2.174999999999997,
+   "error": null,
+   "mechanism": "Introduce a preference for already-used bins over fresh ones to reduce fragmentation and add a penalty for bins with leftover space smaller than the smallest item, with a nonlinear transformation to e",
+   "code": "import numpy as np\n# MECHANISM: Introduce a preference for already-used bins over fresh ones to reduce fragmentation and add a penalty for bins with leftover space smaller than the smallest item, with a nonlinear transformation to encourage better bin utilization.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.where(bins < item, 1, 0)  # Penalty for bins with leftover space smaller than the item\n    fragmentation = 1 - (bins / 150) ** 2  # Nonlinear preference for already-used bins over fresh ones\n    return np.array([s(b, item) + penalty[i] + fragmentation[i] for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 69.95,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.25,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 9,
+   "parent": 5,
+   "branch": 0,
+   "depth": 3,
+   "round": 2,
+   "created": 9,
+   "ok": true,
+   "score": -132.225,
+   "error": null,
+   "mechanism": "Introduce a penalty for bins with leftover space smaller than the smallest item (20) and a small penalty for unused bins.",
+   "code": "import numpy as np\n\n# MECHANISM: Introduce a penalty for bins with leftover space smaller than the smallest item (20) and a small penalty for unused bins.\n\ndef priority(item, bins):\n    smallest_item = 1\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.maximum(0, 20 - (bins - item))\n    return np.array([s(b, item) - penalty[i] - 0.01 * (150 - b) for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 200.0,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the EMPTIEST bin (worst-fit behaviour): this is why the score collapsed; -129.45 vs baseline",
+    "heldout_score": -330.95,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 10,
+   "parent": 6,
+   "branch": 1,
+   "depth": 3,
+   "round": 2,
+   "created": 10,
+   "ok": true,
+   "score": -2.1499999999999915,
+   "error": null,
+   "mechanism": "Introduce a penalty for bins with leftover space smaller than the smallest item, and a preference for already-used bins over fresh ones to reduce fragmentation, with a nonlinear transformation.",
+   "code": "import numpy as np\n# MECHANISM: Introduce a penalty for bins with leftover space smaller than the smallest item, and a preference for already-used bins over fresh ones to reduce fragmentation, with a nonlinear transformation.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.maximum(0, 1 - (bins - item) / 150)\n    used_bins = bins < 150\n    return np.array([s(b, item) * penalty[i] * (2 * used_bins[i] + 1) for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 69.925,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.199999999999989,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 11,
+   "parent": 7,
+   "branch": 2,
+   "depth": 3,
+   "round": 2,
+   "created": 11,
+   "ok": true,
+   "score": -2.2749999999999915,
+   "error": null,
+   "mechanism": "Introduce a penalty for bins with leftover space smaller than the smallest item and adjust the penalty for unused bins.",
+   "code": "import numpy as np\n\n# MECHANISM: Introduce a penalty for bins with leftover space smaller than the smallest item and adjust the penalty for unused bins.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.where(bins < item, 0.5, 0)\n    unused_penalty = np.where(bins == 150, 0.1, 0)\n    return np.array([s(b, item) + penalty[i] + unused_penalty[i] + (150 - b) / 150 for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 70.05,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.549999999999983,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 12,
+   "parent": 8,
+   "branch": 3,
+   "depth": 3,
+   "round": 2,
+   "created": 12,
+   "ok": true,
+   "score": -2.174999999999997,
+   "error": null,
+   "mechanism": "Introduce a preference for already-used bins over fresh ones to reduce fragmentation and add a penalty for bins with leftover space smaller than the smallest item, with a nonlinear transformation to e",
+   "code": "import numpy as np\n# MECHANISM: Introduce a preference for already-used bins over fresh ones to reduce fragmentation and add a penalty for bins with leftover space smaller than the smallest item, with a nonlinear transformation to encourage better bin utilization.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.where(bins < item, 1, 0)  # Penalty for bins with leftover space smaller than the item\n    fragmentation = 1 - (bins / 150) ** 2  # Nonlinear preference for already-used bins over fresh ones\n    return np.array([s(b, item) + penalty[i] + fragmentation[i] for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 69.95,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.25,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 13,
+   "parent": 9,
+   "branch": 0,
+   "depth": 4,
+   "round": 3,
+   "created": 13,
+   "ok": true,
+   "score": -132.225,
+   "error": null,
+   "mechanism": "Introduce a penalty for bins with leftover space smaller than the smallest item (20) and a small penalty for unused bins.",
+   "code": "import numpy as np\n\n# MECHANISM: Introduce a penalty for bins with leftover space smaller than the smallest item (20) and a small penalty for unused bins.\n\ndef priority(item, bins):\n    smallest_item = 1\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.maximum(0, 20 - (bins - item))\n    return np.array([s(b, item) - penalty[i] - 0.01 * (150 - b) for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 200.0,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the EMPTIEST bin (worst-fit behaviour): this is why the score collapsed; -129.45 vs baseline",
+    "heldout_score": -330.95,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 14,
+   "parent": 10,
+   "branch": 1,
+   "depth": 4,
+   "round": 3,
+   "created": 14,
+   "ok": true,
+   "score": -2.1499999999999915,
+   "error": null,
+   "mechanism": "Introduce a penalty for bins with leftover space smaller than the smallest item, and a preference for already-used bins over fresh ones to reduce fragmentation, with a nonlinear transformation.",
+   "code": "import numpy as np\n\n# MECHANISM: Introduce a penalty for bins with leftover space smaller than the smallest item, and a preference for already-used bins over fresh ones to reduce fragmentation, with a nonlinear transformation.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.maximum(0, 1 - (bins - item) / 150)\n    used_bins = bins < 150\n    return np.array([s(b, item) * penalty[i] * (2 * used_bins[i] + 1) for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 69.925,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.199999999999989,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 15,
+   "parent": 11,
+   "branch": 2,
+   "depth": 4,
+   "round": 3,
+   "created": 15,
+   "ok": true,
+   "score": -2.2749999999999915,
+   "error": null,
+   "mechanism": "Introduce a penalty for bins with leftover space smaller than the smallest item and adjust the penalty for unused bins.",
+   "code": "import numpy as np\n\n# MECHANISM: Introduce a penalty for bins with leftover space smaller than the smallest item and adjust the penalty for unused bins.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.where(bins < item, 0.5, 0)\n    unused_penalty = np.where(bins == 150, 0.1, 0)\n    return np.array([s(b, item) + penalty[i] + unused_penalty[i] + (150 - b) / 150 for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 70.05,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.549999999999983,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 16,
+   "parent": 12,
+   "branch": 3,
+   "depth": 4,
+   "round": 3,
+   "created": 16,
+   "ok": true,
+   "score": -2.1499999999999915,
+   "error": null,
+   "mechanism": "Introduce a preference for already-used bins over fresh ones to reduce fragmentation and add a penalty for bins with leftover space smaller than the smallest item, with a nonlinear transformation to e",
+   "code": "import numpy as np\n# MECHANISM: Introduce a preference for already-used bins over fresh ones to reduce fragmentation and add a penalty for bins with leftover space smaller than the smallest item, with a nonlinear transformation to encourage better bin utilization.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.where(bins < item, 1, 0)  # Penalty for bins with leftover space smaller than the item\n    fragmentation = (150 - bins) / 150  # Nonlinear preference for already-used bins over fresh ones\n    return np.array([s(b, item) + penalty[i] + fragmentation[i] for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 69.925,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.25,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 17,
+   "parent": 13,
+   "branch": 0,
+   "depth": 5,
+   "round": 4,
+   "created": 17,
+   "ok": true,
+   "score": -132.225,
+   "error": null,
+   "mechanism": "Introduce a penalty for bins with leftover space smaller than the smallest item (20) and a small penalty for unused bins.",
+   "code": "import numpy as np\n\n# MECHANISM: Introduce a penalty for bins with leftover space smaller than the smallest item (20) and a small penalty for unused bins.\n\ndef priority(item, bins):\n    smallest_item = 1\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.maximum(0, 20 - (bins - item))\n    return np.array([s(b, item) - penalty[i] - 0.01 * (150 - b) for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 200.0,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the EMPTIEST bin (worst-fit behaviour): this is why the score collapsed; -129.45 vs baseline",
+    "heldout_score": -330.95,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 18,
+   "parent": 14,
+   "branch": 1,
+   "depth": 5,
+   "round": 4,
+   "created": 18,
+   "ok": true,
+   "score": -2.1499999999999915,
+   "error": null,
+   "mechanism": "Introduce a penalty for bins with leftover space smaller than the smallest item, and a preference for already-used bins over fresh ones to reduce fragmentation, with a nonlinear transformation.",
+   "code": "import numpy as np\n\n# MECHANISM: Introduce a penalty for bins with leftover space smaller than the smallest item, and a preference for already-used bins over fresh ones to reduce fragmentation, with a nonlinear transformation.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.maximum(0, 1 - (bins - item) / 150)\n    used_bins = bins < 150\n    return np.array([s(b, item) * penalty[i] * (2 * used_bins[i] + 1) for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 69.925,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.199999999999989,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 19,
+   "parent": 15,
+   "branch": 2,
+   "depth": 5,
+   "round": 4,
+   "created": 19,
+   "ok": true,
+   "score": -2.2749999999999915,
+   "error": null,
+   "mechanism": "Introduce a penalty for bins with leftover space smaller than the smallest item and adjust the penalty for unused bins.",
+   "code": "import numpy as np\n\n# MECHANISM: Introduce a penalty for bins with leftover space smaller than the smallest item and adjust the penalty for unused bins.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.where(bins < item, 0.5, 0)\n    unused_penalty = np.where(bins == 150, 0.1, 0)\n    return np.array([s(b, item) + penalty[i] + unused_penalty[i] + (150 - b) / 150 for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 70.05,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.549999999999983,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 20,
+   "parent": 16,
+   "branch": 3,
+   "depth": 5,
+   "round": 4,
+   "created": 20,
+   "ok": true,
+   "score": -2.1499999999999915,
+   "error": null,
+   "mechanism": "Introduce a penalty for bins with leftover space smaller than the smallest item, and a preference for already-used bins over fresh ones, with a nonlinear transformation to encourage better bin utiliza",
+   "code": "import numpy as np\n# MECHANISM: Introduce a penalty for bins with leftover space smaller than the smallest item, and a preference for already-used bins over fresh ones, with a nonlinear transformation to encourage better bin utilization.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.where(bins < item, 1, 0)  # Penalty for bins with leftover space smaller than the item\n    fragmentation = (150 - bins) / 150  # Nonlinear preference for already-used bins over fresh ones\n    return np.array([s(b, item) + penalty[i] + fragmentation[i] for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 69.925,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.25,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 21,
+   "parent": 17,
+   "branch": 0,
+   "depth": 6,
+   "round": 5,
+   "created": 21,
+   "ok": true,
+   "score": -132.225,
+   "error": null,
+   "mechanism": "Introduce a penalty for bins with leftover space smaller than the smallest item (20) and a small penalty for unused bins.",
+   "code": "import numpy as np\n\n# MECHANISM: Introduce a penalty for bins with leftover space smaller than the smallest item (20) and a small penalty for unused bins.\n\ndef priority(item, bins):\n    smallest_item = 1\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.maximum(0, 20 - (bins - item))\n    return np.array([s(b, item) - penalty[i] - 0.01 * (150 - b) for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 200.0,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the EMPTIEST bin (worst-fit behaviour): this is why the score collapsed; -129.45 vs baseline",
+    "heldout_score": -330.95,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 22,
+   "parent": 18,
+   "branch": 1,
+   "depth": 6,
+   "round": 5,
+   "created": 22,
+   "ok": true,
+   "score": -2.1499999999999915,
+   "error": null,
+   "mechanism": "Introduce a penalty for bins with leftover space smaller than the smallest item, and a preference for already-used bins over fresh ones to reduce fragmentation, with a nonlinear transformation.",
+   "code": "import numpy as np\n\n# MECHANISM: Introduce a penalty for bins with leftover space smaller than the smallest item, and a preference for already-used bins over fresh ones to reduce fragmentation, with a nonlinear transformation.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.maximum(0, 1 - (bins - item) / 150)\n    used_bins = bins < 150\n    return np.array([s(b, item) * penalty[i] * (1 + used_bins[i]) for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 69.925,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.199999999999989,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 23,
+   "parent": 19,
+   "branch": 2,
+   "depth": 6,
+   "round": 5,
+   "created": 23,
+   "ok": true,
+   "score": -2.2749999999999915,
+   "error": null,
+   "mechanism": "Introduce a penalty for bins with leftover space smaller than the smallest item and adjust the penalty for unused bins.",
+   "code": "import numpy as np\n\n# MECHANISM: Introduce a penalty for bins with leftover space smaller than the smallest item and adjust the penalty for unused bins.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.where(bins < item, 0.5, 0)\n    unused_penalty = np.where(bins == 150, 0.1, 0)\n    return np.array([s(b, item) + penalty[i] + unused_penalty[i] + (150 - b) / 150 for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 70.05,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.549999999999983,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 24,
+   "parent": 20,
+   "branch": 3,
+   "depth": 6,
+   "round": 5,
+   "created": 24,
+   "ok": true,
+   "score": -2.1499999999999915,
+   "error": null,
+   "mechanism": "Introduce a penalty for bins with leftover space smaller than the smallest item, and a preference for already-used bins over fresh ones, with a nonlinear transformation to encourage better bin utiliza",
+   "code": "import numpy as np\n# MECHANISM: Introduce a penalty for bins with leftover space smaller than the smallest item, and a preference for already-used bins over fresh ones, with a nonlinear transformation to encourage better bin utilization.\n\ndef priority(item, bins):\n    def s(b, item):\n        g = b - item\n        if g <= 2: return 4\n        elif g <= 3: return 3\n        elif g <= 5: return 2\n        elif g <= 7: return 1\n        elif g <= 9: return 0.9\n        elif g <= 12: return 0.95\n        elif g <= 15: return 0.97\n        elif g <= 21: return 0.98\n        else: return 0.99\n    penalty = np.where(bins < item, 1, 0)  # Penalty for bins with leftover space smaller than the item\n    fragmentation = (150 - bins) / 150  # Nonlinear preference for already-used bins over fresh ones\n    return np.array([s(b, item) + penalty[i] + fragmentation[i] for i, b in enumerate(bins)])\n",
+   "metrics": {
+    "mean_bins": 69.925,
+    "mean_l1": 67.775,
+    "diagnostic": "prefers the tightest fit (best-fit-like)",
+    "heldout_score": -4.25,
+    "llm_calls": 1
+   }
+  }
+ ]
+}

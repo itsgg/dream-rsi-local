@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+# shell-wrapper completion sentinels and shell redirect logs
+runs/ALL_DONE*
+runs/MATRIX_FINAL
+runs/*.log
+# every prompt and reply: useful locally, 9 MB per matrix, not worth committing
+runs/*/llm_calls.jsonl

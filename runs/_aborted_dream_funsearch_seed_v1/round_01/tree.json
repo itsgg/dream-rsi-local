@@ -1,0 +1,471 @@
+{
+ "meta": {
+  "name": "round_01",
+  "round": 1,
+  "policy": "/Users/gg/Work/GG/dream-rsi-local/runs/dream_r4/policy_round_01.py",
+  "task": "binpack_u120",
+  "W": 4,
+  "max_depth": 6,
+  "max_branches": 8,
+  "rounds": 6,
+  "seconds": 370.2,
+  "policy_violations": 0
+ },
+ "nodes": [
+  {
+   "id": 0,
+   "parent": null,
+   "branch": -1,
+   "depth": 0,
+   "round": 0,
+   "created": 0,
+   "ok": true,
+   "score": null,
+   "error": null,
+   "mechanism": "<root>",
+   "code": "",
+   "metrics": {}
+  },
+  {
+   "id": 1,
+   "parent": 0,
+   "branch": 0,
+   "depth": 1,
+   "round": 0,
+   "created": 1,
+   "ok": true,
+   "score": -4.5,
+   "error": null,
+   "mechanism": "unspecified",
+   "code": "import numpy as np\n\ndef priority(item, bins):\n    penalty = 100 / (bins + item)\n    penalty = np.where(penalty < 0, 0, penalty)\n    return penalty\n",
+   "metrics": {
+    "mean_bins": 79.8,
+    "mean_l1": 75.3,
+    "heldout_score": -10.800000000000011,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 2,
+   "parent": 0,
+   "branch": 1,
+   "depth": 1,
+   "round": 0,
+   "created": 2,
+   "ok": true,
+   "score": -109.7,
+   "error": null,
+   "mechanism": "Reward exact fits and penalize close misses, favoring larger bins slightly.",
+   "code": "import numpy as np\n# MECHANISM: Reward exact fits and penalize close misses, favoring larger bins slightly.\n\ndef priority(item, bins):\n    return np.maximum(bins - item, 0) * (1 + (bins - item) / 150)\n",
+   "metrics": {
+    "mean_bins": 185.0,
+    "mean_l1": 75.3,
+    "heldout_score": -298.8,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 3,
+   "parent": 0,
+   "branch": 2,
+   "depth": 1,
+   "round": 0,
+   "created": 3,
+   "ok": true,
+   "score": -109.7,
+   "error": null,
+   "mechanism": "Prefer bins with exact fits and penalize bins with very small remaining capacity",
+   "code": "import numpy as np\n# MECHANISM: Prefer bins with exact fits and penalize bins with very small remaining capacity\n\ndef priority(item, bins):\n    return bins / (bins + item)\n",
+   "metrics": {
+    "mean_bins": 185.0,
+    "mean_l1": 75.3,
+    "heldout_score": -298.8,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 4,
+   "parent": 0,
+   "branch": 3,
+   "depth": 1,
+   "round": 0,
+   "created": 4,
+   "ok": true,
+   "score": -109.7,
+   "error": null,
+   "mechanism": "Prioritize bins based on the ratio of remaining capacity to item size, penalizing empty bins.",
+   "code": "import numpy as np\n# MECHANISM: Prioritize bins based on the ratio of remaining capacity to item size, penalizing empty bins.\n\ndef priority(item, bins):\n    ratios = bins / item\n    ratios[bins == 0] = -np.inf  # Penalize empty bins\n    return ratios\n",
+   "metrics": {
+    "mean_bins": 185.0,
+    "mean_l1": 75.3,
+    "heldout_score": -298.8,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 5,
+   "parent": 1,
+   "branch": 0,
+   "depth": 2,
+   "round": 1,
+   "created": 5,
+   "ok": true,
+   "score": -109.7,
+   "error": null,
+   "mechanism": "Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits.",
+   "code": "# MECHANISM: Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits.\n\nimport numpy as np\n\ndef priority(item, bins):\n    # Calculate the ratio of remaining capacity to item size\n    ratios = bins / item\n    # Penalize bins with very small remaining capacity\n    penalty = np.where(ratios < 0.1, 100, ratios)\n    return penalty\n",
+   "metrics": {
+    "mean_bins": 185.0,
+    "mean_l1": 75.3,
+    "heldout_score": -298.8,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 6,
+   "parent": 2,
+   "branch": 1,
+   "depth": 2,
+   "round": 1,
+   "created": 6,
+   "ok": true,
+   "score": -109.7,
+   "error": null,
+   "mechanism": "Prefer bins with exact fits and penalize bins with very small remaining capacity, while also considering the size of the item.",
+   "code": "import numpy as np\n# MECHANISM: Prefer bins with exact fits and penalize bins with very small remaining capacity, while also considering the size of the item.\n\ndef priority(item, bins):\n    bin_scores = np.maximum(bins - item, 0) * (1 + (bins - item) / 150)\n    bin_scores[bins - item < 1] *= 0.1  # Penalize bins with very small remaining capacity\n    return bin_scores\n",
+   "metrics": {
+    "mean_bins": 185.0,
+    "mean_l1": 75.3,
+    "heldout_score": -298.8,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 7,
+   "parent": 3,
+   "branch": 2,
+   "depth": 2,
+   "round": 1,
+   "created": 7,
+   "ok": true,
+   "score": -109.7,
+   "error": null,
+   "mechanism": "Prioritize bins based on a combination of remaining capacity and fit quality, penalize very small remaining capacity",
+   "code": "import numpy as np\n\n# MECHANISM: Prioritize bins based on a combination of remaining capacity and fit quality, penalize very small remaining capacity\n\ndef priority(item, bins):\n    return (bins - item) / (bins + item) * (bins / 150)\n",
+   "metrics": {
+    "mean_bins": 185.0,
+    "mean_l1": 75.3,
+    "heldout_score": -298.8,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 8,
+   "parent": 4,
+   "branch": 3,
+   "depth": 2,
+   "round": 1,
+   "created": 8,
+   "ok": false,
+   "score": null,
+   "error": "runtime error: ValueError: priority returned shape (118,), expected (118,), finite=False",
+   "mechanism": "Prioritize bins based on the ratio of remaining capacity to item size, penalize empty bins.",
+   "code": "import numpy as np\n\n# MECHANISM: Prioritize bins based on the ratio of remaining capacity to item size, penalize empty bins.\n# Use a more nuanced approach by considering both the capacity and the size of the item.\n\ndef priority(item, bins):\n    ratios = bins / item\n    ratios[bins == 0] = -np.inf  # Penalize empty bins\n    # Penalize bins that are very close to being filled to avoid overpacking\n    ratios[bins - item < 10] = -np.inf\n    return ratios\n",
+   "metrics": {
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 9,
+   "parent": 5,
+   "branch": 0,
+   "depth": 3,
+   "round": 2,
+   "created": 9,
+   "ok": true,
+   "score": -7.5,
+   "error": null,
+   "mechanism": "Reward exact fits and penalize close misses, favoring larger bins slightly.",
+   "code": "# MECHANISM: Reward exact fits and penalize close misses, favoring larger bins slightly.\n\nimport numpy as np\n\ndef priority(item, bins):\n    # Calculate the ratio of remaining capacity to item size\n    ratios = bins / item\n    # Penalize bins with very small remaining capacity\n    penalty = np.where(ratios < 0.1, 100, ratios)\n    # Reward bins with exact fits\n    reward = np.where(np.isclose(bins, item), 10, 1)\n    # Combine penalty and reward with a weight for bin size\n    priority = reward * penalty * (150 - bins) / 150\n    return priority\n",
+   "metrics": {
+    "mean_bins": 82.8,
+    "mean_l1": 75.3,
+    "heldout_score": -13.950000000000017,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 10,
+   "parent": 6,
+   "branch": 1,
+   "depth": 3,
+   "round": 2,
+   "created": 10,
+   "ok": true,
+   "score": -109.7,
+   "error": null,
+   "mechanism": "Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits and penalize bins with very small remaining capacity.",
+   "code": "import numpy as np\n\n# MECHANISM: Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits and penalize bins with very small remaining capacity.\n\ndef priority(item, bins):\n    bin_scores = np.maximum(bins - item, 0) * (1 + (bins - item) / 150)\n    bin_scores[bins - item < 1] *= 0.1  # Penalize bins with very small remaining capacity\n    bin_scores /= (bins / item)  # Penalize bins based on the ratio of remaining capacity to item size\n    return bin_scores\n",
+   "metrics": {
+    "mean_bins": 185.0,
+    "mean_l1": 75.3,
+    "heldout_score": -298.8,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 11,
+   "parent": 7,
+   "branch": 2,
+   "depth": 3,
+   "round": 2,
+   "created": 11,
+   "ok": true,
+   "score": -109.7,
+   "error": null,
+   "mechanism": "Prefer bins with exact fits and penalize bins with very small remaining capacity, but also consider the ratio of remaining capacity to item size",
+   "code": "import numpy as np\n\n# MECHANISM: Prefer bins with exact fits and penalize bins with very small remaining capacity, but also consider the ratio of remaining capacity to item size\n\ndef priority(item, bins):\n    penalty = np.where(bins - item < 1, 1000, 0)  # Penalize bins with very small remaining capacity\n    fit_ratio = bins / item  # Higher ratio means better fit\n    capacity_ratio = bins / 150  # Lower ratio means more capacity left\n    return fit_ratio / (fit_ratio + penalty) * capacity_ratio\n",
+   "metrics": {
+    "mean_bins": 185.0,
+    "mean_l1": 75.3,
+    "heldout_score": -298.8,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 12,
+   "parent": 8,
+   "branch": 3,
+   "depth": 3,
+   "round": 2,
+   "created": 12,
+   "ok": false,
+   "score": null,
+   "error": "runtime error: ValueError: priority returned shape (118,), expected (118,), finite=False",
+   "mechanism": "Prioritize bins based on the ratio of remaining capacity to item size, penalize empty bins.",
+   "code": "import numpy as np\n\n# MECHANISM: Prioritize bins based on the ratio of remaining capacity to item size, penalize empty bins.\n# Use a more nuanced approach by considering both the capacity and the size of the item.\n\ndef priority(item, bins):\n    ratios = bins / item\n    ratios[bins == 0] = -np.inf  # Penalize empty bins\n    # Penalize bins that are very close to being filled to avoid overpacking\n    ratios[bins - item < 10] = -np.inf\n    return ratios\n",
+   "metrics": {
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 13,
+   "parent": 9,
+   "branch": 0,
+   "depth": 4,
+   "round": 3,
+   "created": 13,
+   "ok": true,
+   "score": -5.2250000000000085,
+   "error": null,
+   "mechanism": "Reward exact fits and penalize close misses, favoring larger bins slightly with a different approach.",
+   "code": "# MECHANISM: Reward exact fits and penalize close misses, favoring larger bins slightly with a different approach.\n\nimport numpy as np\n\ndef priority(item, bins):\n    # Calculate the ratio of remaining capacity to item size\n    ratios = bins / item\n    # Penalize bins with very small remaining capacity\n    penalty = np.where(ratios < 0.1, 100, ratios)\n    # Reward bins with exact fits\n    reward = np.where(np.isclose(bins, item), 10, 1)\n    # Combine penalty and reward with a weight for bin size\n    priority = reward * penalty * (150 - bins) / 150\n    # Scale the priority to be more sensitive to larger bins\n    priority *= (150 - bins) / 150\n    return priority\n",
+   "metrics": {
+    "mean_bins": 80.525,
+    "mean_l1": 75.3,
+    "heldout_score": -11.700000000000017,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 14,
+   "parent": 10,
+   "branch": 1,
+   "depth": 4,
+   "round": 3,
+   "created": 14,
+   "ok": true,
+   "score": -109.7,
+   "error": null,
+   "mechanism": "Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits and penalize bins with very small remaining capacity. Use a logarithmic transform to emphasize small difference",
+   "code": "import numpy as np\n\n# MECHANISM: Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits and penalize bins with very small remaining capacity. Use a logarithmic transform to emphasize small differences.\n\ndef priority(item, bins):\n    bin_scores = np.maximum(bins - item, 0)\n    bin_scores[bins - item < 1] *= 0.1  # Penalize bins with very small remaining capacity\n    bin_scores /= (bins / item)  # Penalize bins based on the ratio of remaining capacity to item size\n    bin_scores = np.log(bin_scores + 1)  # Logarithmic transform to emphasize small differences\n    return bin_scores\n",
+   "metrics": {
+    "mean_bins": 185.0,
+    "mean_l1": 75.3,
+    "heldout_score": -298.8,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 15,
+   "parent": 11,
+   "branch": 2,
+   "depth": 4,
+   "round": 3,
+   "created": 15,
+   "ok": true,
+   "score": -109.7,
+   "error": null,
+   "mechanism": "Reward bins with exact fits and penalize bins with very small remaining capacity, but consider the ratio of remaining capacity to item size and the gap threshold",
+   "code": "import numpy as np\n\n# MECHANISM: Reward bins with exact fits and penalize bins with very small remaining capacity, but consider the ratio of remaining capacity to item size and the gap threshold\n\ndef priority(item, bins):\n    # Penalize bins with very small remaining capacity\n    penalty = np.where(bins - item < 1, 1000, 0)\n    \n    # Calculate fit ratio\n    fit_ratio = bins / item\n    \n    # Calculate capacity ratio\n    capacity_ratio = bins / 150\n    \n    # Calculate gap threshold\n    gap_threshold = 20\n    gap_penalty = np.where(bins - item < gap_threshold, bins - item, 0)\n    \n    # Combine preferences\n    preference = (fit_ratio / (fit_ratio + penalty)) * capacity_ratio - gap_penalty\n    \n    return preference\n",
+   "metrics": {
+    "mean_bins": 185.0,
+    "mean_l1": 75.3,
+    "heldout_score": -298.8,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 16,
+   "parent": 12,
+   "branch": 3,
+   "depth": 4,
+   "round": 3,
+   "created": 16,
+   "ok": false,
+   "score": null,
+   "error": "runtime error: ValueError: priority returned shape (118,), expected (118,), finite=False",
+   "mechanism": "Prioritize bins based on the ratio of remaining capacity to item size, penalize empty bins.",
+   "code": "import numpy as np\n\n# MECHANISM: Prioritize bins based on the ratio of remaining capacity to item size, penalize empty bins.\n# Use a more nuanced approach by considering both the capacity and the size of the item.\n\ndef priority(item, bins):\n    ratios = bins / item\n    ratios[bins == 0] = -np.inf  # Penalize empty bins\n    # Penalize bins that are very close to being filled to avoid overpacking\n    ratios[bins - item < 10] = -np.inf\n    return ratios\n",
+   "metrics": {
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 17,
+   "parent": 13,
+   "branch": 0,
+   "depth": 5,
+   "round": 4,
+   "created": 17,
+   "ok": true,
+   "score": -7.5,
+   "error": null,
+   "mechanism": "Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits.",
+   "code": "# MECHANISM: Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits.\n\nimport numpy as np\n\ndef priority(item, bins):\n    # Calculate the ratio of remaining capacity to item size\n    ratios = bins / item\n    # Penalize bins with very small remaining capacity\n    penalty = np.where(ratios < 0.1, 100, ratios)\n    # Reward bins with exact fits\n    reward = np.where(np.isclose(bins, item), 10, 1)\n    # Combine penalty and reward with a weight for bin size\n    priority = reward * penalty * (150 - bins) / 150\n    return priority\n",
+   "metrics": {
+    "mean_bins": 82.8,
+    "mean_l1": 75.3,
+    "heldout_score": -13.950000000000017,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 18,
+   "parent": 14,
+   "branch": 1,
+   "depth": 5,
+   "round": 4,
+   "created": 18,
+   "ok": true,
+   "score": -109.7,
+   "error": null,
+   "mechanism": "Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits and penalize bins with very small remaining capacity. Use a logarithmic transform to emphasize small difference",
+   "code": "import numpy as np\n\n# MECHANISM: Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits and penalize bins with very small remaining capacity. Use a logarithmic transform to emphasize small differences, but adjust the penalty for small capacities to be more aggressive.\n\ndef priority(item, bins):\n    bin_scores = np.maximum(bins - item, 0)\n    bin_scores[bins - item < 1] *= 0.01  # More aggressive penalty for bins with very small remaining capacity\n    bin_scores /= (bins / item)  # Penalize bins based on the ratio of remaining capacity to item size\n    bin_scores = np.log(bin_scores + 1)  # Logarithmic transform to emphasize small differences\n    return bin_scores\n",
+   "metrics": {
+    "mean_bins": 185.0,
+    "mean_l1": 75.3,
+    "heldout_score": -298.8,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 19,
+   "parent": 15,
+   "branch": 2,
+   "depth": 5,
+   "round": 4,
+   "created": 19,
+   "ok": true,
+   "score": -109.7,
+   "error": null,
+   "mechanism": "Reward bins with exact fits and penalize bins with very small remaining capacity, but consider the ratio of remaining capacity to item size and the gap threshold",
+   "code": "import numpy as np\n\n# MECHANISM: Reward bins with exact fits and penalize bins with very small remaining capacity, but consider the ratio of remaining capacity to item size and the gap threshold\n\ndef priority(item, bins):\n    # Penalize bins with very small remaining capacity\n    penalty = np.where(bins - item < 1, 1000, 0)\n    \n    # Calculate fit ratio\n    fit_ratio = bins / item\n    \n    # Calculate capacity ratio\n    capacity_ratio = bins / 150\n    \n    # Calculate gap threshold\n    gap_threshold = 20\n    gap_penalty = np.where(bins - item < gap_threshold, bins - item, 0)\n    \n    # Combine preferences\n    preference = (fit_ratio / (fit_ratio + penalty)) * capacity_ratio - gap_penalty\n    \n    return preference\n",
+   "metrics": {
+    "mean_bins": 185.0,
+    "mean_l1": 75.3,
+    "heldout_score": -298.8,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 20,
+   "parent": 16,
+   "branch": 3,
+   "depth": 5,
+   "round": 4,
+   "created": 20,
+   "ok": false,
+   "score": null,
+   "error": "runtime error: ValueError: priority returned shape (118,), expected (118,), finite=False",
+   "mechanism": "Prioritize bins based on the ratio of remaining capacity to item size, penalize empty bins.",
+   "code": "import numpy as np\n\n# MECHANISM: Prioritize bins based on the ratio of remaining capacity to item size, penalize empty bins.\n# Use a more nuanced approach by considering both the capacity and the size of the item.\n\ndef priority(item, bins):\n    ratios = bins / item\n    ratios[bins == 0] = -np.inf  # Penalize empty bins\n    # Penalize bins that are very close to being filled to avoid overpacking\n    ratios[bins - item < 10] = -np.inf\n    return ratios\n",
+   "metrics": {
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 21,
+   "parent": 17,
+   "branch": 0,
+   "depth": 6,
+   "round": 5,
+   "created": 21,
+   "ok": true,
+   "score": -7.5,
+   "error": null,
+   "mechanism": "Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits.",
+   "code": "# MECHANISM: Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits.\n\nimport numpy as np\n\ndef priority(item, bins):\n    # Calculate the ratio of remaining capacity to item size\n    ratios = bins / item\n    # Penalize bins with very small remaining capacity\n    penalty = np.where(ratios < 0.1, 100, ratios)\n    # Reward bins with exact fits\n    reward = np.where(np.isclose(bins, item), 10, 1)\n    # Combine penalty and reward with a weight for bin size\n    priority = reward * penalty * (150 - bins) / 150\n    return priority\n",
+   "metrics": {
+    "mean_bins": 82.8,
+    "mean_l1": 75.3,
+    "heldout_score": -13.950000000000017,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 22,
+   "parent": 18,
+   "branch": 1,
+   "depth": 6,
+   "round": 5,
+   "created": 22,
+   "ok": true,
+   "score": -109.7,
+   "error": null,
+   "mechanism": "Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits and penalize bins with very small remaining capacity. Use a logarithmic transform to emphasize small difference",
+   "code": "import numpy as np\n\n# MECHANISM: Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits and penalize bins with very small remaining capacity. Use a logarithmic transform to emphasize small differences, but adjust the penalty for small capacities to be more aggressive. Introduce a threshold to avoid overly aggressive penalties for very small capacities.\n\ndef priority(item, bins):\n    bin_scores = np.maximum(bins - item, 0)\n    small_capacity_mask = bins - item < 1\n    bin_scores[small_capacity_mask] *= 0.01  # More aggressive penalty for bins with very small remaining capacity\n    bin_scores /= (bins / item)  # Penalize bins based on the ratio of remaining capacity to item size\n    bin_scores[small_capacity_mask] *= 100  # Increase the penalty for very small capacities\n    bin_scores = np.log(bin_scores + 1)  # Logarithmic transform to emphasize small differences\n    return bin_scores\n",
+   "metrics": {
+    "mean_bins": 185.0,
+    "mean_l1": 75.3,
+    "heldout_score": -298.8,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 23,
+   "parent": 19,
+   "branch": 2,
+   "depth": 6,
+   "round": 5,
+   "created": 23,
+   "ok": true,
+   "score": -109.7,
+   "error": null,
+   "mechanism": "Reward bins with exact fits and penalize bins with very small remaining capacity, but consider the ratio of remaining capacity to item size and the gap threshold",
+   "code": "import numpy as np\n\n# MECHANISM: Reward bins with exact fits and penalize bins with very small remaining capacity, but consider the ratio of remaining capacity to item size and the gap threshold\n\ndef priority(item, bins):\n    # Penalize bins with very small remaining capacity\n    penalty = np.where(bins - item < 1, 1000, 0)\n    \n    # Calculate fit ratio\n    fit_ratio = bins / item\n    \n    # Calculate capacity ratio\n    capacity_ratio = bins / 150\n    \n    # Calculate gap threshold\n    gap_threshold = 20\n    gap_penalty = np.where(bins - item < gap_threshold, bins - item, 0)\n    \n    # Combine preferences\n    preference = (fit_ratio / (fit_ratio + penalty)) * capacity_ratio - gap_penalty\n    \n    return preference\n",
+   "metrics": {
+    "mean_bins": 185.0,
+    "mean_l1": 75.3,
+    "heldout_score": -298.8,
+    "llm_calls": 1
+   }
+  },
+  {
+   "id": 24,
+   "parent": 20,
+   "branch": 3,
+   "depth": 6,
+   "round": 5,
+   "created": 24,
+   "ok": false,
+   "score": null,
+   "error": "runtime error: ValueError: priority returned shape (118,), expected (118,), finite=False",
+   "mechanism": "Prioritize bins based on the ratio of remaining capacity to item size, penalize empty bins.",
+   "code": "import numpy as np\n\n# MECHANISM: Prioritize bins based on the ratio of remaining capacity to item size, penalize empty bins.\n# Use a more nuanced approach by considering both the capacity and the size of the item.\n\ndef priority(item, bins):\n    ratios = bins / item\n    ratios[bins == 0] = -np.inf  # Penalize empty bins\n    # Penalize bins that are very close to being filled to avoid overpacking\n    ratios[bins - item < 10] = -np.inf\n    return ratios\n",
+   "metrics": {
+    "llm_calls": 1
+   }
+  }
+ ]
+}

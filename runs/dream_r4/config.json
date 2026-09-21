@@ -1,0 +1,16 @@
+{
+ "W": 4,
+ "max_branches": 8,
+ "max_depth": 6,
+ "K1": 10,
+ "K2": 12,
+ "M": 4,
+ "beta1": 0.005,
+ "beta2": 0.01,
+ "baseline_score": -2.7749999999999915,
+ "seed_program": "funsearch_or",
+ "mode": "dream",
+ "model": "qwen2.5-coder:7b",
+ "policy_model": "qwen2.5-coder:7b",
+ "rounds": 4
+}

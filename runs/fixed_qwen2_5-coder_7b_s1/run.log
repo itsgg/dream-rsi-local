@@ -1,0 +1,135 @@
+[15:14:05] run fixed_qwen2_5-coder_7b_s1: {"W": 4, "max_branches": 8, "max_depth": 6, "K1": 10, "K2": 10, "M": 4, "beta1": 0.005, "beta2": 0.01, "baseline_score": -2.7749999999999915, "seed_program": "funsearch_or", "mode": "fixed", "model": "qwen2.5-coder:7b", "policy_model": "qwen2.5-coder:7b", "rounds": 4, "sampling_seed": 1, "temperature": 0.8, "policy_temperature": 0.7, "policy_timeout": 30.0, "num_ctx": 8192, "num_predict": 1200, "policy_num_predict": 2500, "task": "binpack_uniform_c150", "train_spec": {"seed": 10, "n_inst": 40, "n_items": 200, "cap": 150, "lo": 1, "hi": 100}, "heldout_spec": {"seed": 777, "n_inst": 20, "n_items": 500, "cap": 150, "lo": 1, "hi": 100}, "reference_scores": {"first_fit": -2.7249999999999943, "best_fit": -2.174999999999997, "funsearch_or": -2.7749999999999915}, "code_commit": "eebdd9d", "repair_rounds": 2, "novelty_threshold": 0.95, "embed_model": "bge-m3"}
+[15:14:05] baseline scores: {'first_fit': -2.7249999999999943, 'best_fit': -2.174999999999997, 'funsearch_or': -2.7749999999999915}
+[15:14:05] === round 1/4: online rollout with policy_round_01.py ===
+[15:14:05]   round 0: batch=[0, 0, 0, 0] (legal=[0])
+[15:14:45]     node 1 (branch 0, depth 1) -2.775 | Improve the priority function to give higher priority to bins with larger remain
+[15:14:45]     node 2 (branch 1, depth 1) -16.500 | Use a piecewise linear function to prioritize bins based on remaining capacity
+[15:14:45]     node 3 (branch 2, depth 1) -2.275 | Use a piecewise linear function with more breakpoints to better capture the trad
+[15:14:45]     node 4 (branch 3, depth 1) -2.775 | Use a logarithmic scale for the preference scores to give more weight to very la
+[15:14:46]   round 1: batch=[1, 2, 3, 4] (legal=[0, 1, 2, 3, 4])
+[15:15:36]     node 5 (branch 0, depth 2) -2.175 novelty-retry | Use a linear decay function for preference scores based on remaining capacity.
+[15:15:36]     node 6 (branch 1, depth 2) -132.225 novelty-retry | Use a logarithmic scale for the preference scores to give more weight to very la
+[15:15:36]     node 7 (branch 2, depth 2) -5.850 dup=round_01#4 novelty-retry | Use a logarithmic scale for the preference scores to give more weight to very la
+[15:15:36]     node 8 (branch 3, depth 2) -132.225 | Use a logarithmic scale for the preference scores to give more weight to very la
+[15:15:37]   round 2: batch=[5, 6, 7, 8] (legal=[0, 5, 6, 7, 8])
+[15:16:34]     node 9 (branch 0, depth 3) -132.225 dup=round_01#5 novelty-retry | Use an exponential decay function for preference scores based on remaining capac
+[15:16:34]     node 10 (branch 1, depth 3) -99.450 | Use a piecewise linear function with more breakpoints to better capture the trad
+[15:16:34]     node 11 (branch 2, depth 3) -2.175 novelty-retry | Use an exponential decay function for preference scores based on remaining capac
+[15:16:34]     node 12 (branch 3, depth 3) FAIL: runtime error: ValueError: priority returned NaN or inf values repaired=Falsex2 | Use a logarithmic scale for the preference scores to give more weight to very la
+[15:16:34]   round 3: batch=[9, 10, 11, 12] (legal=[0, 9, 10, 11, 12])
+[15:17:52]     node 13 (branch 0, depth 4) -73.250 novelty-retry | Use a linear decay function with a quadratic adjustment for preference scores ba
+[15:17:52]     node 14 (branch 1, depth 4) -2.175 novelty-retry | Use a quadratic decay function for preference scores based on remaining capacity
+[15:17:52]     node 15 (branch 2, depth 4) -2.175 novelty-retry | Use a reciprocal function for preference scores based on remaining capacity.
+[15:17:52]     node 16 (branch 3, depth 4) FAIL: runtime error: ValueError: priority returned NaN or inf values repaired=Falsex2 dup=round_01#12 novelty-retry | Use a logarithmic scale for the preference scores to give more weight to very la
+[15:17:52]   round 4: batch=[13, 14, 15, 16] (legal=[0, 13, 14, 15, 16])
+[15:19:15]     node 17 (branch 0, depth 5) -2.175 dup=round_01#13 novelty-retry | Use a combination of linear and exponential decay functions for preference score
+[15:19:15]     node 18 (branch 1, depth 5) -2.175 dup=round_01#14 novelty-retry | Use a cosine function to prioritize bins based on remaining capacity
+[15:19:15]     node 19 (branch 2, depth 5) -2.175 dup=round_01#11 novelty-retry | Use a Gaussian function to balance between tight fit and spreading items over ma
+[15:19:15]     node 20 (branch 3, depth 5) FAIL: runtime error: ValueError: priority returned NaN or inf values repaired=Falsex2 dup=round_01#12 novelty-retry | Use a modified logarithmic scale with a linear decay factor to balance between w
+[15:19:15]   round 5: batch=[17, 18, 19, 20] (legal=[0, 17, 18, 19, 20])
+[15:20:41]     node 21 (branch 0, depth 6) -96.375 novelty-retry | Use a combination of inverse quadratic and logarithmic functions for preference 
+[15:20:41]     node 22 (branch 1, depth 6) -2.175 novelty-retry | Use a linear combination of cosine and exponential decay functions
+[15:20:41]     node 23 (branch 2, depth 6) -45.300 | Use a modified piecewise linear function with more breakpoints to better capture
+[15:20:41]     node 24 (branch 3, depth 6) FAIL: runtime error: ValueError: priority returned NaN or inf values repaired=Falsex2 dup=round_01#12 novelty-retry | Use a modified logarithmic scale with a quadratic decay factor to balance betwee
+[15:20:41]   round 6: policy chose to stop
+[15:20:41] round 1 done: 24 calls in 395.7s, round best -2.174999999999997, best so far -2.174999999999997 (held-out -4.199999999999989), cumulative 24
+[15:20:41] === round 2/4: online rollout with policy_round_02.py ===
+[15:20:41]   round 0: batch=[0, 0, 0, 0] (legal=[0])
+[15:21:45]     node 1 (branch 0, depth 1) -2.675 | Use a piecewise linear function for preference scores based on remaining capacit
+[15:21:45]     node 2 (branch 1, depth 1) -132.225 dup=round_01#6 novelty-retry | Use a logarithmic function for preference scores based on remaining capacity.
+[15:21:45]     node 3 (branch 2, depth 1) -132.225 dup=round_01#5 novelty-retry | Use a logarithmic function for preference scores to give more weight to very lar
+[15:21:45]     node 4 (branch 3, depth 1) -2.175 dup=round_01#14 novelty-retry | Use a polynomial decay function for preference scores based on remaining capacit
+[15:21:45]   round 1: batch=[1, 2, 3, 4] (legal=[0, 1, 2, 3, 4])
+[15:22:48]     node 5 (branch 0, depth 2) -132.225 novelty-retry | Use a different polynomial decay function for preference scores based on remaini
+[15:22:48]     node 6 (branch 1, depth 2) -132.225 dup=round_02#2 novelty-retry | Use a power function for preference scores based on remaining capacity.
+[15:22:48]     node 7 (branch 2, depth 2) -132.225 dup=round_02#3 novelty-retry | Use a sigmoid function to balance between tight fit and spreading items over man
+[15:22:48]     node 8 (branch 3, depth 2) -2.175 dup=round_02#4 novelty-retry | Use a logarithmic function for preference scores based on remaining capacity.
+[15:22:48]   round 2: batch=[5, 6, 7, 8] (legal=[0, 5, 6, 7, 8])
+[15:23:44]     node 9 (branch 0, depth 3) -6.775 novelty-retry | Use a piecewise function to balance between tight fit and spreading items over m
+[15:23:44]     node 10 (branch 1, depth 3) -10.100 | Use a modified cosine function to prioritize bins based on remaining capacity.
+[15:23:44]     node 11 (branch 2, depth 3) -132.225 dup=round_02#7 novelty-retry | Use a sine function to balance between tight fit and spreading items over many b
+[15:23:44]     node 12 (branch 3, depth 3) -132.225 novelty-retry | Use a hyperbolic tangent function to balance between tight fit and spreading ite
+[15:23:44]   round 3: batch=[9, 10, 11, 12] (legal=[0, 9, 10, 11, 12])
+[15:24:36]     node 13 (branch 0, depth 4) -2.175 dup=round_01#17 novelty-retry | Use a weighted combination of linear and exponential decay functions for prefere
+[15:24:36]     node 14 (branch 1, depth 4) -2.175 | Use a piecewise linear function to prioritize bins based on remaining capacity.
+[15:24:36]     node 15 (branch 2, depth 4) -132.225 dup=round_02#7 novelty-retry | Use a power function to balance between tight fit and spreading items over many 
+[15:24:36]     node 16 (branch 3, depth 4) -2.175 | Use a modified exponential decay function to balance between tight fit and sprea
+[15:24:36]   round 4: batch=[13, 14, 15, 16] (legal=[0, 13, 14, 15, 16])
+[15:25:53]     node 17 (branch 0, depth 5) -101.450 novelty-retry | Use a piecewise function to balance between tight fit and spreading items over m
+[15:25:53]     node 18 (branch 1, depth 5) -2.175 dup=round_02#14 novelty-retry | Use a piecewise linear function with a logarithmic component to balance between 
+[15:25:53]     node 19 (branch 2, depth 5) -2.775 dup=round_02#11 novelty-retry | Use a modified cosine function to prioritize bins based on remaining capacity.
+[15:25:53]     node 20 (branch 3, depth 5) -45.050 dup=round_02#11 novelty-retry | Use a sinusoidal function to balance between tight fit and spreading items over 
+[15:25:53]   round 5: batch=[17, 18, 19, 20] (legal=[0, 17, 18, 19, 20])
+[15:26:51]     node 21 (branch 0, depth 6) -101.450 dup=round_02#17 novelty-retry | Use a piecewise function to balance between tight fit and spreading items over m
+[15:26:51]     node 22 (branch 1, depth 6) -2.175 | Use a modified exponential decay function to balance between tight fit and sprea
+[15:26:51]     node 23 (branch 2, depth 6) -132.225 dup=round_02#12 novelty-retry | Use a hyperbolic tangent function to balance between tight fit and spreading ite
+[15:26:51]     node 24 (branch 3, depth 6) -2.175 | Use a piecewise function to balance between tight fit and spreading items over m
+[15:26:51]   round 6: policy chose to stop
+[15:26:51] round 2 done: 24 calls in 369.7s, round best -2.174999999999997, best so far -2.174999999999997 (held-out -4.199999999999989), cumulative 48
+[15:26:51] === round 3/4: online rollout with policy_round_03.py ===
+[15:26:51]   round 0: batch=[0, 0, 0, 0] (legal=[0])
+[15:28:27]     node 1 (branch 0, depth 1) -2.175 repaired=Truex2 dup=round_02#15 novelty-retry | Use a power function to prioritize bins based on remaining capacity.
+[15:28:27]     node 2 (branch 1, depth 1) -132.225 dup=round_01#9 novelty-retry | Use a sigmoid function to balance between tight fit and spreading items over man
+[15:28:27]     node 3 (branch 2, depth 1) -2.475 dup=round_01#14 novelty-retry | Use a piecewise linear function for preference scores based on remaining capacit
+[15:28:27]     node 4 (branch 3, depth 1) -2.175 | Use a piecewise linear function with different slopes for different remaining ca
+[15:28:27]   round 1: batch=[1, 2, 3, 4] (legal=[0, 1, 2, 3, 4])
+[15:30:35]     node 5 (branch 0, depth 2) -132.225 dup=round_02#23 novelty-retry | Use a hyperbolic tangent function to balance between tight fit and spreading ite
+[15:30:35]     node 6 (branch 1, depth 2) -44.700 dup=round_02#21 novelty-retry | Use a piecewise quadratic function to prioritize bins based on remaining capacit
+[15:30:35]     node 7 (branch 2, depth 2) -2.475 novelty-retry | Use a piecewise constant function for preference scores based on remaining capac
+[15:30:35]     node 8 (branch 3, depth 2) -2.175 dup=round_03#4 novelty-retry | Use a piecewise quadratic function with different slopes for different remaining
+[15:30:35]   round 2: batch=[5, 6, 7, 8] (legal=[0, 5, 6, 7, 8])
+[15:32:40]     node 9 (branch 0, depth 3) -132.225 | Use a piecewise linear function with different slopes for different remaining ca
+[15:32:40]     node 10 (branch 1, depth 3) -44.700 dup=round_03#6 novelty-retry | Use a piecewise exponential function to prioritize bins based on remaining capac
+[15:32:40]     node 11 (branch 2, depth 3) -2.150 repaired=Truex2 | Use a piecewise linear function with different slopes for different remaining ca
+[15:32:40]     node 12 (branch 3, depth 3) -2.175 novelty-retry | Use a piecewise exponential function with different decay rates for different re
+[15:32:40]   round 3: batch=[9, 10, 11, 12] (legal=[0, 9, 10, 11, 12])
+[15:34:39]     node 13 (branch 0, depth 4) -132.225 novelty-retry | Use a logarithmic function to prioritize bins based on remaining capacity, with 
+[15:34:39]     node 14 (branch 1, depth 4) -2.275 dup=round_03#6 novelty-retry | Use a piecewise linear function with different slopes for different remaining ca
+[15:34:39]     node 15 (branch 2, depth 4) -2.175 novelty-retry | Use a combination of linear and logarithmic decay functions for preference score
+[15:34:39]     node 16 (branch 3, depth 4) -132.225 dup=round_03#4 novelty-retry | Use a piecewise quadratic function with different slopes for different remaining
+[15:34:39]   round 4: batch=[13, 14, 15, 16] (legal=[0, 13, 14, 15, 16])
+[15:36:17]     node 17 (branch 0, depth 5) -132.225 | Use a piecewise linear function with different slopes for different remaining ca
+[15:36:17]     node 18 (branch 1, depth 5) -132.225 dup=round_02#3 novelty-retry | Use a logarithmic function to prioritize bins based on remaining capacity, with 
+[15:36:17]     node 19 (branch 2, depth 5) -2.175 dup=round_03#15 novelty-retry | Use a piecewise quadratic function for preference scores based on remaining capa
+[15:36:17]     node 20 (branch 3, depth 5) -2.175 dup=round_01#22 novelty-retry | Use a linear combination of cosine and exponential decay functions
+[15:36:17]   round 5: batch=[17, 18, 19, 20] (legal=[0, 17, 18, 19, 20])
+[15:38:25]     node 21 (branch 0, depth 6) -132.225 novelty-retry | Use a sigmoid function to balance between tight fit and spreading items over man
+[15:38:25]     node 22 (branch 1, depth 6) -132.225 dup=round_03#17 novelty-retry | Use a piecewise linear function with different slopes for different remaining ca
+[15:38:25]     node 23 (branch 2, depth 6) -11.750 dup=round_03#15 novelty-retry | Use a combination of linear and logarithmic decay functions for preference score
+[15:38:25]     node 24 (branch 3, depth 6) -105.275 novelty-retry | Use a piecewise linear function with different slopes for different remaining ca
+[15:38:26]   round 6: policy chose to stop
+[15:38:26] round 3 done: 24 calls in 695.0s, round best -2.1499999999999915, best so far -2.1499999999999915 (held-out -4.199999999999989), cumulative 72
+[15:38:26] === round 4/4: online rollout with policy_round_04.py ===
+[15:38:26]   round 0: batch=[0, 0, 0, 0] (legal=[0])
+[15:39:52]     node 1 (branch 0, depth 1) -2.175 dup=round_01#5 novelty-retry | Use a quadratic decay function for preference scores based on remaining capacity
+[15:39:52]     node 2 (branch 1, depth 1) -15.825 dup=round_01#14 novelty-retry | Use a linear function with a quadratic term to balance between tight fit and spr
+[15:39:52]     node 3 (branch 2, depth 1) -2.175 dup=round_02#3 novelty-retry | Use a logarithmic decay function for preference scores based on remaining capaci
+[15:39:52]     node 4 (branch 3, depth 1) -132.225 | Use a logarithmic function for preference scores based on remaining capacity to 
+[15:39:52]   round 1: batch=[1, 2, 3, 4] (legal=[0, 1, 2, 3, 4])
+[15:41:23]     node 5 (branch 0, depth 2) -2.175 novelty-retry | Use an exponential decay function for preference scores based on remaining capac
+[15:41:23]     node 6 (branch 1, depth 2) -132.225 dup=round_04#2 novelty-retry | Use a sigmoid function to balance between tight fit and spreading items.
+[15:41:23]     node 7 (branch 2, depth 2) -132.225 dup=round_04#1 novelty-retry | Use a power function for preference scores based on remaining capacity.
+[15:41:23]     node 8 (branch 3, depth 2) -2.175 dup=round_04#4 novelty-retry | Use an inverse power function for preference scores based on remaining capacity
+[15:41:23]   round 2: batch=[5, 6, 7, 8] (legal=[0, 5, 6, 7, 8])
+[15:42:57]     node 9 (branch 0, depth 3) -129.925 novelty-retry | Use a combination of linear and quadratic functions to balance between tight fit
+[15:42:57]     node 10 (branch 1, depth 3) -2.175 dup=round_03#15 novelty-retry | Use a combination of linear and exponential decay functions to balance between t
+[15:42:57]     node 11 (branch 2, depth 3) -132.225 dup=round_04#3 novelty-retry | Use a logarithmic function for preference scores based on remaining capacity to 
+[15:42:57]     node 12 (branch 3, depth 3) -44.950 dup=round_04#4 novelty-retry | Use a sinusoidal function to balance between tight fit and spreading items
+[15:42:57]   round 3: batch=[9, 10, 11, 12] (legal=[0, 9, 10, 11, 12])
+[15:44:54]     node 13 (branch 0, depth 4) -2.175 novelty-retry | Use a logarithmic decay function with a linear component to balance between tigh
+[15:44:54]     node 14 (branch 1, depth 4) -3.400 novelty-retry | Use a power function to balance between tight fit and spreading items.
+[15:44:54]     node 15 (branch 2, depth 4) -2.175 dup=round_04#7 novelty-retry | Use a quadratic function for preference scores based on remaining capacity.
+[15:44:54]     node 16 (branch 3, depth 4) -3.175 dup=round_03#11 novelty-retry | Use a piecewise exponential function with different decay rates for different re
+[15:44:54]   round 4: batch=[13, 14, 15, 16] (legal=[0, 13, 14, 15, 16])
+[15:46:59]     node 17 (branch 0, depth 5) -2.725 novelty-retry | Use a piecewise function to balance between tight fit and spreading items.
+[15:46:59]     node 18 (branch 1, depth 5) -44.700 dup=round_04#2 novelty-retry | Use a Gaussian function to balance between tight fit and spreading items.
+[15:46:59]     node 19 (branch 2, depth 5) -2.175 dup=round_03#2 novelty-retry | Use an inverse quadratic function for preference scores based on remaining capac
+[15:46:59]     node 20 (branch 3, depth 5) -132.225 dup=round_04#12 novelty-retry | Use a hyperbolic tangent function to balance between tight fit and spreading ite
+[15:46:59]   round 5: batch=[17, 18, 19, 20] (legal=[0, 17, 18, 19, 20])
+[15:48:51]     node 21 (branch 0, depth 6) -2.725 dup=round_04#17 novelty-retry | Use a combination of linear and logarithmic functions to balance between tight f
+[15:48:51]     node 22 (branch 1, depth 6) -132.225 novelty-retry | Use a combination of linear and inverse quadratic decay functions to balance bet
+[15:48:51]     node 23 (branch 2, depth 6) -2.175 novelty-retry | Use a linear combination of exponential and quadratic functions for preference s
+[15:48:51]     node 24 (branch 3, depth 6) -2.150 dup=round_03#11 novelty-retry | Use a piecewise linear function with different slopes for different remaining ca
+[15:48:51]   round 6: policy chose to stop
+[15:48:51] round 4 done: 24 calls in 625.3s, round best -2.1499999999999915, best so far -2.1499999999999915 (held-out -4.199999999999989), cumulative 96
+[15:48:51] finished. total discovery-agent calls 96; llm stats {'calls': 186, 'prompt_tokens': 276440, 'completion_tokens': 22640, 'seconds': 6645.3}

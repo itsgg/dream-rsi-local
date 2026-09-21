@@ -1,0 +1,158 @@
+[
+ {
+  "name": "v00 (incumbent)",
+  "path": "/Users/gg/Work/GG/dream-rsi-local/runs/dream_qwen2_5-coder_7b_s2/round_03/dream/v00.py",
+  "mean_V": -2.1969999999999974,
+  "errors": [],
+  "per_tree": [
+   {
+    "tree": "round_01",
+    "V": -2.174999999999997,
+    "best": -2.174999999999997,
+    "N": 7,
+    "rounds": 2,
+    "revealed_all": false,
+    "error": null,
+    "violations": 5
+   },
+   {
+    "tree": "round_02",
+    "V": -2.2049999999999974,
+    "best": -2.174999999999997,
+    "N": 12,
+    "rounds": 4,
+    "revealed_all": false,
+    "error": null,
+    "violations": 8
+   },
+   {
+    "tree": "round_03",
+    "V": -2.210999999999997,
+    "best": -2.174999999999997,
+    "N": 12,
+    "rounds": 5,
+    "revealed_all": true,
+    "error": null,
+    "violations": 8
+   }
+  ]
+ },
+ {
+  "name": "v01",
+  "path": "/Users/gg/Work/GG/dream-rsi-local/runs/dream_qwen2_5-coder_7b_s2/round_03/dream/v01.py",
+  "mean_V": -2.195166666666664,
+  "errors": [],
+  "per_tree": [
+   {
+    "tree": "round_01",
+    "V": -2.174999999999997,
+    "best": -2.174999999999997,
+    "N": 7,
+    "rounds": 2,
+    "revealed_all": false,
+    "error": null,
+    "violations": 5
+   },
+   {
+    "tree": "round_02",
+    "V": -2.2024999999999975,
+    "best": -2.174999999999997,
+    "N": 11,
+    "rounds": 4,
+    "revealed_all": false,
+    "error": null,
+    "violations": 9
+   },
+   {
+    "tree": "round_03",
+    "V": -2.2079999999999975,
+    "best": -2.174999999999997,
+    "N": 11,
+    "rounds": 5,
+    "revealed_all": false,
+    "error": null,
+    "violations": 13
+   }
+  ]
+ },
+ {
+  "name": "v02",
+  "path": "/Users/gg/Work/GG/dream-rsi-local/runs/dream_qwen2_5-coder_7b_s2/round_03/dream/v02.py",
+  "mean_V": -2.195166666666664,
+  "errors": [],
+  "per_tree": [
+   {
+    "tree": "round_01",
+    "V": -2.174999999999997,
+    "best": -2.174999999999997,
+    "N": 7,
+    "rounds": 2,
+    "revealed_all": false,
+    "error": null,
+    "violations": 5
+   },
+   {
+    "tree": "round_02",
+    "V": -2.2024999999999975,
+    "best": -2.174999999999997,
+    "N": 11,
+    "rounds": 4,
+    "revealed_all": false,
+    "error": null,
+    "violations": 9
+   },
+   {
+    "tree": "round_03",
+    "V": -2.2079999999999975,
+    "best": -2.174999999999997,
+    "N": 11,
+    "rounds": 5,
+    "revealed_all": false,
+    "error": null,
+    "violations": 13
+   }
+  ]
+ },
+ {
+  "name": "v03",
+  "path": "/Users/gg/Work/GG/dream-rsi-local/runs/dream_qwen2_5-coder_7b_s2/round_03/dream/v03.py",
+  "mean_V": null,
+  "errors": [
+   "policy crashed:     if view.best_score() > -2.175: |        ^^^^^^^^^^^^^^^^^^^^^^^^^^ | TypeError: '>' not supported between instances of 'NoneType' and 'float'",
+   "policy crashed:     if view.best_score() > -2.175: |        ^^^^^^^^^^^^^^^^^^^^^^^^^^ | TypeError: '>' not supported between instances of 'NoneType' and 'float'",
+   "policy crashed:     if view.best_score() > -2.175: |        ^^^^^^^^^^^^^^^^^^^^^^^^^^ | TypeError: '>' not supported between instances of 'NoneType' and 'float'"
+  ],
+  "per_tree": [
+   {
+    "tree": "round_01",
+    "V": -133.225,
+    "best": -133.225,
+    "N": 0,
+    "rounds": 0,
+    "revealed_all": false,
+    "error": "policy crashed:     if view.best_score() > -2.175: |        ^^^^^^^^^^^^^^^^^^^^^^^^^^ | TypeError: '>' not supported between instances of 'NoneType' and 'float'",
+    "violations": 0
+   },
+   {
+    "tree": "round_02",
+    "V": -133.225,
+    "best": -133.225,
+    "N": 0,
+    "rounds": 0,
+    "revealed_all": false,
+    "error": "policy crashed:     if view.best_score() > -2.175: |        ^^^^^^^^^^^^^^^^^^^^^^^^^^ | TypeError: '>' not supported between instances of 'NoneType' and 'float'",
+    "violations": 0
+   },
+   {
+    "tree": "round_03",
+    "V": -133.225,
+    "best": -133.225,
+    "N": 0,
+    "rounds": 0,
+    "revealed_all": false,
+    "error": "policy crashed:     if view.best_score() > -2.175: |        ^^^^^^^^^^^^^^^^^^^^^^^^^^ | TypeError: '>' not supported between instances of 'NoneType' and 'float'",
+    "violations": 0
+   }
+  ]
+ }
+]

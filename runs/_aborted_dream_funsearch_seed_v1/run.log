@@ -1,0 +1,43 @@
+[06:12:53] run dream_r4: {"W": 4, "max_branches": 8, "max_depth": 6, "K1": 10, "K2": 12, "M": 4, "beta1": 0.005, "beta2": 0.01, "baseline_score": -3.424999999999997, "seed_program": "funsearch_or", "mode": "dream", "model": "qwen2.5-coder:7b", "policy_model": "qwen2.5-coder:7b", "rounds": 4}
+[06:12:53] baseline scores: {'first_fit': -4.8500000000000085, 'best_fit': -4.5, 'funsearch_or': -3.424999999999997}
+[06:12:53] === round 1/4: online rollout with policy_round_01.py ===
+[06:12:53]   round 0: batch=[0, 0, 0, 0] (legal=[0])
+[06:13:13]     node 1 (branch 0, depth 1) -4.500 | unspecified
+[06:13:13]     node 2 (branch 1, depth 1) -109.700 | Reward exact fits and penalize close misses, favoring larger bins slightly.
+[06:13:13]     node 3 (branch 2, depth 1) -109.700 | Prefer bins with exact fits and penalize bins with very small remaining capacity
+[06:13:13]     node 4 (branch 3, depth 1) -109.700 | Prioritize bins based on the ratio of remaining capacity to item size, penalizing empty bi
+[06:13:13]   round 1: batch=[1, 2, 3, 4] (legal=[0, 1, 2, 3, 4])
+[06:13:54]     node 5 (branch 0, depth 2) -109.700 | Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits.
+[06:13:54]     node 6 (branch 1, depth 2) -109.700 | Prefer bins with exact fits and penalize bins with very small remaining capacity, while al
+[06:13:54]     node 7 (branch 2, depth 2) -109.700 | Prioritize bins based on a combination of remaining capacity and fit quality, penalize ver
+[06:13:54]     node 8 (branch 3, depth 2) FAIL: runtime error: ValueError: priority returned shape (118,), expected (118,), fini | Prioritize bins based on the ratio of remaining capacity to item size, penalize empty bins
+[06:13:54]   round 2: batch=[5, 6, 7, 8] (legal=[0, 5, 6, 7, 8])
+[06:14:51]     node 9 (branch 0, depth 3) -7.500 | Reward exact fits and penalize close misses, favoring larger bins slightly.
+[06:14:51]     node 10 (branch 1, depth 3) -109.700 | Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits a
+[06:14:51]     node 11 (branch 2, depth 3) -109.700 | Prefer bins with exact fits and penalize bins with very small remaining capacity, but also
+[06:14:51]     node 12 (branch 3, depth 3) FAIL: runtime error: ValueError: priority returned shape (118,), expected (118,), fini | Prioritize bins based on the ratio of remaining capacity to item size, penalize empty bins
+[06:14:51]   round 3: batch=[9, 10, 11, 12] (legal=[0, 9, 10, 11, 12])
+[06:16:02]     node 13 (branch 0, depth 4) -5.225 | Reward exact fits and penalize close misses, favoring larger bins slightly with a differen
+[06:16:02]     node 14 (branch 1, depth 4) -109.700 | Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits a
+[06:16:02]     node 15 (branch 2, depth 4) -109.700 | Reward bins with exact fits and penalize bins with very small remaining capacity, but cons
+[06:16:02]     node 16 (branch 3, depth 4) FAIL: runtime error: ValueError: priority returned shape (118,), expected (118,), fini | Prioritize bins based on the ratio of remaining capacity to item size, penalize empty bins
+[06:16:02]   round 4: batch=[13, 14, 15, 16] (legal=[0, 13, 14, 15, 16])
+[06:17:23]     node 17 (branch 0, depth 5) -7.500 | Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits.
+[06:17:23]     node 18 (branch 1, depth 5) -109.700 | Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits a
+[06:17:23]     node 19 (branch 2, depth 5) -109.700 | Reward bins with exact fits and penalize bins with very small remaining capacity, but cons
+[06:17:23]     node 20 (branch 3, depth 5) FAIL: runtime error: ValueError: priority returned shape (118,), expected (118,), fini | Prioritize bins based on the ratio of remaining capacity to item size, penalize empty bins
+[06:17:23]   round 5: batch=[17, 18, 19, 20] (legal=[0, 17, 18, 19, 20])
+[06:19:03]     node 21 (branch 0, depth 6) -7.500 | Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits.
+[06:19:03]     node 22 (branch 1, depth 6) -109.700 | Penalize bins based on the ratio of remaining capacity to item size, favoring exact fits a
+[06:19:03]     node 23 (branch 2, depth 6) -109.700 | Reward bins with exact fits and penalize bins with very small remaining capacity, but cons
+[06:19:03]     node 24 (branch 3, depth 6) FAIL: runtime error: ValueError: priority returned shape (118,), expected (118,), fini | Prioritize bins based on the ratio of remaining capacity to item size, penalize empty bins
+[06:19:03]   round 6: policy chose to stop
+[06:19:03] round 1 done: 24 calls in 370.2s, round best -4.5, best so far -4.5 (held-out -10.800000000000011), cumulative 24
+[06:19:03] --- dreaming over 1 replay world(s) ---
+[06:19:03]   dream v00 (incumbent): mean V = -4.5800
+[06:19:50]   dream v01: mean V = -4.5633
+[06:20:30]   dream v02: mean V = -4.5857
+[06:21:15]   dream v03: mean V = -4.5633
+[06:21:15]   selected v01 (mean V = -4.5633) for the next round
+[06:21:15] === round 2/4: online rollout with policy_round_02.py ===
+[06:21:15]   round 0: batch=[0, 0, 0, 0] (legal=[0])

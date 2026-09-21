@@ -1,0 +1,43 @@
+{
+ "name": "dream_r4",
+ "config": {
+  "W": 4,
+  "max_branches": 8,
+  "max_depth": 6,
+  "K1": 10,
+  "K2": 12,
+  "M": 4,
+  "beta1": 0.005,
+  "beta2": 0.01,
+  "baseline_score": -4.5,
+  "mode": "dream",
+  "model": "qwen2.5-coder:7b",
+  "policy_model": "qwen2.5-coder:7b",
+  "rounds": 4
+ },
+ "rounds": [
+  {
+   "round": 1,
+   "policy": "policy_round_01.py",
+   "calls": 24,
+   "cumulative_calls": 24,
+   "decision_rounds": 6,
+   "failed": 4,
+   "round_best": -4.5,
+   "round_best_heldout": -10.800000000000011,
+   "best_so_far": -4.5,
+   "best_so_far_heldout": -10.800000000000011,
+   "best_mechanism": "Penalize bins based on the gap between remaining capacity and item size, favoring larger gaps.",
+   "rollout_seconds": 214.8,
+   "policy_fallback_round": null,
+   "dream_seconds": 64.9,
+   "next_policy_changed": true,
+   "llm": {
+    "calls": 27,
+    "prompt_tokens": 32747,
+    "completion_tokens": 3456,
+    "seconds": 583.8
+   }
+  }
+ ]
+}
